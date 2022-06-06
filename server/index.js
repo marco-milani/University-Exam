@@ -20,11 +20,12 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-try{
+
+/*try{  code to add default exam
   dao.addDefaultExam();
 }catch(err){
   console.log(err);
-}
+}*/
 
 // GET APIs //
 
