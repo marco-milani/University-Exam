@@ -3,7 +3,7 @@
 
 const sqlite = require('sqlite3');
 const {Exam} = require('./exam');
-const dayjs = require("dayjs");
+//const dayjs = require("dayjs");
 const { resolve } = require('path');
 
 const db = new sqlite.Database('studyPlan.db', err => {
@@ -183,7 +183,7 @@ exports.addExam=(exam) =>{
   })
 }
 
-exports.addDefaultExam=()=>{
+exports.addDefaultExam=async ()=>{
   let exam=new Exam("02GOLOV","Architetture dei sistemi di elaborazione",12,null,null,null);
   await this.addExam(exam);
   let exam1=new Exam("02LSEOV","Computer architectures",12,null,null,null);
