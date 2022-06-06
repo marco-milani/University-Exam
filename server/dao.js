@@ -38,7 +38,7 @@ exports.listAllExam = () => {
 exports.getExamByCode = (code) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM exam WHERE code=?';
-    db.get(sql, id, (err, row) => {
+    db.get(sql, code, (err, row) => {
       if (err) reject(err);
       else {
         if(row) {

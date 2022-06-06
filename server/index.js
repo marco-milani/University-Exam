@@ -41,8 +41,8 @@ app.get('/api/exams', async (req, res) => {
 });
 
 
-// Get exam element given its id //
-app.get('/api/exams/:id',
+// Get exam element given its code //
+app.get('/api/exams/:code',
     async (req, res) => {
       const code = req.params.code;
       try {
@@ -56,6 +56,8 @@ app.get('/api/exams/:id',
         return res.status(500).json({error: `Internal Server Error`}).end();
       }
     });
+
+
 
 
     //TO DO login 
