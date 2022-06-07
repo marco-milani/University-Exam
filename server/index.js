@@ -85,29 +85,40 @@ app.post('/api/plan',
     //TO DO login 
 
 // PUT APIs //
-//TO DO capire come voglio fare aggiungere esami-> uno per volta da qui o passare lista qui 
-/*app.put('/api/films/:id',
-    [check("title").exists(),
-      check("favorite").exists(),
-      check("watchdate").exists(),
-      check("rating").exists().isNumeric(),
-      check("user").exists()],
-    async (req, res) => {
-      
+
+app.put('/api/plan/exams',
+    [check("exams").exists(),
+      check("userId").exists()],
+    async (req, res) => {     
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(422).json({error: ' Validation of request body failed '}).end()
       }
-      const id = req.params.id;
       try {
-          await dao.updateFilm(req.body,id);
+          await dao.addExamPlan(req.body.exams,req.body.userId);
         return res.status(200).json("OK").end();
       } catch (err) {
         console.log(err);
         return res.status(500).json({error: `Internal Server Error`}).end();
       }
-    });*/
+    });
 
+    app.put('/api/plan/exams/remove',
+    [check("exams").exists(),
+      check("userId").exists()],
+    async (req, res) => {     
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({error: ' Validation of request body failed '}).end()
+      }
+      try {
+          await dao.deleteExamPlan(req.body.exams,req.body.userId);
+        return res.status(200).json("OK").end();
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({error: `Internal Server Error`}).end();
+      }
+    });
 
 // DELETE APIs //
 
@@ -127,7 +138,6 @@ app.delete('/api/plan/:id',
       }
     });
 
-//TO DO api delete exam from exam plan
 
 // activate the server
 app.listen(port, () => {
