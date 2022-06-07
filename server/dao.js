@@ -60,12 +60,13 @@ exports.getExamByCode = (code) => {
   });
 
 }
-exports.getPlanByUserId=(Id)=>{
+exports.getPlanByUserId=async(Id)=>{
   return new Promise((resolve, reject) => {
     const sql2="SELECT id from plan WHERE userId=?";
-    db.get(sql2, Id, (err, row) => {//prendo plan id
+    db.get(sql2, Id, (err, row) => {
       if (err) reject(err);
       else {
+        let planId;
         if(row) {
           planId=row.id;
         }
@@ -75,10 +76,12 @@ exports.getPlanByUserId=(Id)=>{
 
   })
 }
-exports.insertExam=(exam,id)=>{
+exports.insertExam=(id,code)=>{
   return new Promise((resolve,reject)=>{
     const sql = "INSERT INTO planExam(id,code) VALUES (?, ?)";
-    db.run(sql, [id,exam.code], (err) => {// inserisco esame dentro piano di studio
+    console.log(code);
+    console.log(id);
+    db.run(sql, [id,code], (err) => {// inserisco esame dentro piano di studio
       if (err)
         reject(err);
       else
@@ -88,10 +91,10 @@ exports.insertExam=(exam,id)=>{
   })
 }
 
-exports.deleteExam=(exam,id)=>{
+exports.deleteExam=(id,code)=>{
   return new Promise((resolve,reject)=>{
     const sql = "DELETE FROM planExam WHERE code=? and id=?";
-    db.run(sql, [id,exam.code], (err) => {// inserisco esame dentro piano di studio
+    db.run(sql, [code,id], (err) => {// inserisco esame dentro piano di studio
       if (err)
         reject(err);
       else
@@ -102,17 +105,18 @@ exports.deleteExam=(exam,id)=>{
 }
 
 exports.addExamPlan =async (exams,userId) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
         const sql3= "UPDATE plan SET credits= credits + ? WHERE id=?"
         let planId;
         try{
-           planId = await getPlanByUserId(userId);
+           planId = await this.getPlanByUserId(userId);
         }catch(err){
           throw err;
         }
         let credits=0;
         for(const i of exams){
-          await insertExam(planId,i.code)
+          
+          await this.insertExam(planId,i.code)
           credits+=i.credits;
         }
         db.run(sql3, [credits,planId], (err) => { //aggiorno piano distudio con crediti dell'esame
@@ -141,20 +145,20 @@ exports.NewPlan = (type,userId) => {
 
 //delete exam from plan
 
-exports.deleteExamPlan = (exams,userId) => {
-  return new Promise((resolve, reject) => {
+exports.deleteExamPlan =async (exams,userId) => {
+  return new Promise(async (resolve, reject) => {
        
         const sql2="SELECT id from plan WHERE userId=?";
         const sql3= "UPDATE plan SET credits= credits - ? WHERE id=?"
         let planId;
         try{
-          planId = await getPlanByUserId(userId);
+           planId = await this.getPlanByUserId(userId);
        }catch(err){
          throw err;
        }
        let credits=0;
         for(const i of exams){
-          await deleteExam(planId,i.code)
+          await this.deleteExam(planId,i.code)
           credits+=i.credits;
         }    
         db.run(sql3, [credits,planId], (err) => { //aggiorno piano distudio con crediti dell'esame
