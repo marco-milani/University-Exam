@@ -1,12 +1,13 @@
+import {Button, Container, Form, FormControl, Nav, Navbar} from "react-bootstrap";
+import {Link} from 'react-router-dom'
 function TopBar(props) {
     const userColor = '#39AEA9';
     return (
         <Navbar style={{backgroundColor: props.bg}} expand="lg"
-                className="justify-content-center align-content-center mh-10">
+                className="justify-content-center align-content-center mh-10" sticky="top">
           <Container style={{paddingTop: '0.2%', marginLeft: '3vw', marginRight: '3vw'}}>
             <Navbar.Brand as={Link} to='/'>
-              <img src={logo} alt={"App logo"} height={40} width={40} style={{marginBottom: '3%'}}/>
-              <span style={{color: 'white', marginLeft: '1em', fontSize: 25}}>Film Library</span></Navbar.Brand>
+              <span style={{color: 'white', marginLeft: '1em', fontSize: 25}}>Study Plan</span></Navbar.Brand>
             <Nav className="m-auto">
               <Form className="d-flex">
                 <FormControl
