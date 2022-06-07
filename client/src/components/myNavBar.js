@@ -1,20 +1,20 @@
-import { Button, Container, Form, FormControl, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Form, FormControl, Nav, Navbar, NavLink, NavItem } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css"
 import { Link } from 'react-router-dom'
 function TopBar(props) {
     return (
-        <Navbar style={{ backgroundColor: props.bg }} expand="lg"
-            className="justify-content-center align-content-center mh-10" sticky="top">
-            <Container style={{ paddingTop: '0.2%', marginLeft: '3vw', marginRight: '3vw' }}>
-            <Nav.Item>
+        <Navbar style={{ backgroundColor: props.bg }} expand="lg" sticky="top">
+            <Container >
                 <Navbar.Brand>
-                    <span style={{ color: 'white', marginLeft: '1em', fontSize: 25 }}>Study Plan</span></Navbar.Brand>
-                    
-                </Nav.Item>
-                <Nav.Item className="d-flex">
-                    <Button variant="outline-primary" size="lg" active>
-                        Login
-                    </Button>
-                    </Nav.Item>
+                    <span style={{ color: 'white', marginLeft: '1em', fontSize: 25 }}>Study Plan</span>
+                </Navbar.Brand>
+                <Nav>
+                    <NavItem className="">
+                        <NavLink variant="outline-primary" size="lg" active>
+                            Login
+                        </NavLink>
+                    </NavItem>
+                </Nav>
             </Container>
         </Navbar>
     );

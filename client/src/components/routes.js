@@ -1,4 +1,4 @@
-import { TopBar } from "./myNavBar";
+
 import { Container } from "react-bootstrap"
 function DefaultRoute() {
     return (
@@ -13,9 +13,9 @@ function ExamListRoute() {
 
     return (
         <>
-            <TopBar bg='#557B83' />
+            
             <Container fluid className='mx-auto my-3'>
-                
+            
             </Container>
         </>
     )
