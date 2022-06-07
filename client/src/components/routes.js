@@ -1,5 +1,5 @@
 import { TopBar } from "./myNavBar";
-import {Container} from "react-bootstrap"
+import { Container } from "react-bootstrap"
 function DefaultRoute() {
     return (
         <Container className='App'>
@@ -12,15 +12,13 @@ function DefaultRoute() {
 function ExamListRoute() {
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <TopBar bg='#557B83' />
-            </header>
+        <>
+            <TopBar bg='#557B83' />
             <Container fluid className='mx-auto my-3'>
                 
             </Container>
-        </div>
-            )
+        </>
+    )
 
-}  
-export {DefaultRoute,ExamListRoute}
+}
+export { DefaultRoute, ExamListRoute }
