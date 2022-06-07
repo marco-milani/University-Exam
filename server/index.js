@@ -60,7 +60,7 @@ app.get('/api/exams/:code',
 
 
 
-    //TO DO login 
+    
 
 // POST APIs //
 
@@ -70,7 +70,6 @@ app.post('/api/plan',
       check("userId").exists().isNumeric()],
     async (req, res) => {
       const errors = validationResult(req);
-      console.log(errors);
       if (!errors.isEmpty()) {
         return res.status(422).json({error: ' Validation of request body failed '}).end()
       }
@@ -82,6 +81,8 @@ app.post('/api/plan',
         return res.status(500).json({error: `Internal Server Error`}).end();
       }
     });
+
+    //TO DO login 
 
 // PUT APIs //
 //TO DO capire come voglio fare aggiungere esami-> uno per volta da qui o passare lista qui 

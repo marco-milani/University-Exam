@@ -60,30 +60,62 @@ exports.getExamByCode = (code) => {
   });
 
 }
-
-exports.addExamPlan = (exam,userId) => {
+exports.getPlanByUserId=(Id)=>{
   return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO planExam(id,code) VALUES (?, ?)";
-        const sql2="SELECT id from plan WHERE userId=?";
+    const sql2="SELECT id from plan WHERE userId=?";
+    db.get(sql2, Id, (err, row) => {//prendo plan id
+      if (err) reject(err);
+      else {
+        if(row) {
+          planId=row.id;
+        }
+        resolve(planId);
+      }
+    });
+
+  })
+}
+exports.insertExam=(exam,id)=>{
+  return new Promise((resolve,reject)=>{
+    const sql = "INSERT INTO planExam(id,code) VALUES (?, ?)";
+    db.run(sql, [id,exam.code], (err) => {// inserisco esame dentro piano di studio
+      if (err)
+        reject(err);
+      else
+        resolve(this.lastID);
+    });
+
+  })
+}
+
+exports.deleteExam=(exam,id)=>{
+  return new Promise((resolve,reject)=>{
+    const sql = "DELETE FROM planExam WHERE code=? and id=?";
+    db.run(sql, [id,exam.code], (err) => {// inserisco esame dentro piano di studio
+      if (err)
+        reject(err);
+      else
+        resolve(this.lastID);
+    });
+
+  })
+}
+
+exports.addExamPlan =async (exams,userId) => {
+  return new Promise((resolve, reject) => {
         const sql3= "UPDATE plan SET credits= credits + ? WHERE id=?"
         let planId;
-        db.get(sql2, userId, (err, row) => {//prendo plan id
-          if (err) reject(err);
-          else {
-            if(row) {
-              planId=row.id;
-            }
-            resolve(planId);
-          }
-        });
-
-        db.run(sql, [planId,exam.code], (err) => {// inserisco esame dentro piano di studio
-          if (err)
-            reject(err);
-          else
-            resolve(this.lastID);
-        });
-        db.run(sql3, [exam.credits,planId], (err) => { //aggiorno piano distudio con crediti dell'esame
+        try{
+           planId = await getPlanByUserId(userId);
+        }catch(err){
+          throw err;
+        }
+        let credits=0;
+        for(const i of exams){
+          await insertExam(planId,i.code)
+          credits+=i.credits;
+        }
+        db.run(sql3, [credits,planId], (err) => { //aggiorno piano distudio con crediti dell'esame
           if (err)
             reject(err);
           else
@@ -97,7 +129,7 @@ exports.addExamPlan = (exam,userId) => {
 exports.NewPlan = (type,userId) => {
   return new Promise((resolve, reject) => {
     const sql = "INSERT INTO plan(type,credits,userId) VALUES(?,?,?)";
-    db.run(sql, [type,userId,0], (err) => {
+    db.run(sql, [type,0,userId], (err) => {
       if (err)
         reject(err);
       else
@@ -109,29 +141,23 @@ exports.NewPlan = (type,userId) => {
 
 //delete exam from plan
 
-exports.deleteExamPlan = (exam,userId) => {
+exports.deleteExamPlan = (exams,userId) => {
   return new Promise((resolve, reject) => {
-        const sql = "DELETE FROM planExam WHERE code=? and id=?";
+       
         const sql2="SELECT id from plan WHERE userId=?";
         const sql3= "UPDATE plan SET credits= credits - ? WHERE id=?"
         let planId;
-        db.get(sql2, userId, (err, row) => {//prendo plan id
-          if (err) reject(err);
-          else {
-            if(row) {
-              planId=row.id;
-            }
-            resolve(planId);
-          }
-        });
-
-        db.run(sql, [planId,exam.code], (err) => {// elimino esame dentro piano di studio
-          if (err)
-            reject(err);
-          else
-            resolve(this.lastID);
-        });
-        db.run(sql3, [exam.credits,planId], (err) => { //aggiorno piano distudio con crediti dell'esame
+        try{
+          planId = await getPlanByUserId(userId);
+       }catch(err){
+         throw err;
+       }
+       let credits=0;
+        for(const i of exams){
+          await deleteExam(planId,i.code)
+          credits+=i.credits;
+        }    
+        db.run(sql3, [credits,planId], (err) => { //aggiorno piano distudio con crediti dell'esame
           if (err)
             reject(err);
           else
