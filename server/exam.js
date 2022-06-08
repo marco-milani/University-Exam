@@ -7,7 +7,7 @@
  * @param {number} credits
  * @param {string} max 
  * @param {number} preparation 
- * @param {string} description 
+ * @param {Array} incompatible 
  */
 function Exam(code, name, credits, max, preparation, description) {
   this.code = code;
@@ -15,7 +15,7 @@ function Exam(code, name, credits, max, preparation, description) {
   this.credits = credits;
   this.max = max;
   this.preparation = preparation;
-  this.description = description;
+  this.incompatible = this.incompatible;
 }
 
 exports.Exam = Exam;

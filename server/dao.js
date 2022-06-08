@@ -10,29 +10,37 @@ const db = new sqlite.Database('studyPlan.db', err => {
   if (err) throw err;
 });
 
-exports.listAllExam = () => {
+exports.listAllExam = async () => {
   return new  Promise(async (resolve, reject) => {
     const sql = 'SELECT * FROM exam ORDER BY code';
 
     db.all(sql, (err, rows) => {
       if (err) reject(err);
       else {
-        const exams = rows.map(row =>
-            new Exam(
+        const exams = Promise.all(rows.map(async row =>{
+          let incompatible;
+          try{
+            incompatible= await this.getIncompatible(row.code);
+          }catch(err){
+            throw err;
+          }
+            return new Exam(
                 row.code,
                 row.name,
                 row.credits,
                 row.max,
                 row.preparation,
-                row.description
-            ))
+                incompatible
+            )
+            //exams.push(e);
+          }))
         resolve(exams);
       }
     })
   });
 
 }
- exports.getIncompatible = (code)=>{
+ exports.getIncompatible =async (code)=>{
   return new Promise((resolve, reject) => {
     const sql="SELECT code2 FROM incompatible WHERE code1=?"
     db.all(sql,[code],(err,rows)=>{
