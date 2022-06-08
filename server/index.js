@@ -13,7 +13,12 @@ const cors = require('cors');
 const app = new express();
 const port = 3001;
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}
 
+app.use(cors(corsOptions));
 /*try{  code to add default exam
   dao.addDefaultExam();
 }catch(err){

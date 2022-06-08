@@ -1,5 +1,6 @@
 
 import { Container } from "react-bootstrap"
+import {ExamTable} from "./examTable"
 function DefaultRoute() {
     return (
         <Container className='App'>
@@ -9,16 +10,21 @@ function DefaultRoute() {
     );
 }
 
-function ExamListRoute() {
-
+function ExamListRoute(props) {
+    console.log(props);
     return (
-        <>
-            
+        <>     
             <Container fluid className='mx-auto my-3'>
-            
+                <ExamTable exams={props.exams}> </ExamTable>
             </Container>
         </>
     )
 
 }
-export { DefaultRoute, ExamListRoute }
+
+function LoginFormRoute(props){
+
+}
+
+
+export { DefaultRoute, ExamListRoute,LoginFormRoute }
