@@ -9,13 +9,13 @@
  * @param {number} preparation 
  * @param {Array} incompatible 
  */
-function Exam(code, name, credits, max, preparation, description) {
+function Exam(code, name, credits, max, preparation, incompatible) {
   this.code = code;
   this.name = name;
   this.credits = credits;
   this.max = max;
   this.preparation = preparation;
-  this.incompatible = this.incompatible;
+  this.incompatible = incompatible;
 }
 
 exports.Exam = Exam;
