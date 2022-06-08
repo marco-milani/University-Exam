@@ -11,8 +11,8 @@ const db = new sqlite.Database('studyPlan.db', err => {
 });
 
 exports.listAllExam = () => {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM exam';
+  return new  Promise(async (resolve, reject) => {
+    const sql = 'SELECT * FROM exam ORDER BY code';
 
     db.all(sql, (err, rows) => {
       if (err) reject(err);
@@ -32,7 +32,26 @@ exports.listAllExam = () => {
   });
 
 }
+ exports.getIncompatible = (code)=>{
+  return new Promise((resolve, reject) => {
+    const sql="SELECT code2 FROM incompatible WHERE code1=?"
+    db.all(sql,[code],(err,rows)=>{
+      if(err) reject(err);
+      else{
+        if(rows===[]){
+          resolve(null)
+        }
+        else{
+          const inc=[];
+          rows.map(r=> inc.push(r));
+          resolve(inc);
+        }
+      }
+    })
+  })
 
+
+}
 
 
 exports.getExamByCode = (code) => {
