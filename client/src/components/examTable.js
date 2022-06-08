@@ -12,6 +12,7 @@ function ExamTable(props) {
                         <th>Credits</th>
                         <th>Enrolled students</th>
                         <th>Max students</th>
+                        <th>More info</th>
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
@@ -34,6 +35,7 @@ function ExamRow(props) {
         <td>{props.exam.credits}</td>
         <td>{props.exam.n}</td>
         <td>{props.exam.max}</td>
+        <td><Button> </Button> </td>
     </tr>
     )
 }

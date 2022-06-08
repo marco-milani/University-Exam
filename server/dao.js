@@ -32,13 +32,11 @@ exports.listAllExam = async () => {
                 row.preparation,
                 incompatible
             )
-            //exams.push(e);
           }))
         resolve(exams);
       }
     })
   });
-
 }
  exports.getIncompatible =async (code)=>{
   return new Promise((resolve, reject) => {
@@ -87,6 +85,19 @@ exports.getExamByCode = (code) => {
   });
 
 }
+
+exports.NstudentsEnrolled=(code)=>{
+  return new Promise((resolve, reject) => {
+    const sql="SELECT COUNT* FROM planExam WHERE code=?";
+    db.get(sql,[code],(err, row) =>{
+      if (err) reject(err);
+      else{
+        resolve(row);
+      }
+    })
+  })
+}
+
 exports.getPlanByUserId=async(Id)=>{
   return new Promise((resolve, reject) => {
     const sql2="SELECT id from plan WHERE userId=?";
