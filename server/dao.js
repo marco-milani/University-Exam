@@ -4,7 +4,7 @@
 const sqlite = require('sqlite3');
 const {Exam} = require('./exam');
 //const dayjs = require("dayjs");
-const { resolve } = require('path');
+//const { resolve } = require('path');
 
 const db = new sqlite.Database('studyPlan.db', err => {
   if (err) throw err;
@@ -12,7 +12,7 @@ const db = new sqlite.Database('studyPlan.db', err => {
 
 exports.listAllExam = async () => {
   return new  Promise(async (resolve, reject) => {
-    const sql = 'SELECT * FROM exam ORDER BY code';
+    const sql = 'SELECT * FROM exam ORDER BY name';
 
     db.all(sql, (err, rows) => {
       if (err) reject(err);
@@ -88,15 +88,30 @@ exports.getExamByCode = (code) => {
 
 exports.NstudentsEnrolled=(code)=>{
   return new Promise((resolve, reject) => {
-    const sql="SELECT COUNT* FROM planExam WHERE code=?";
+    const sql="SELECT COUNT(*) AS n FROM planExam WHERE code=?";
     db.get(sql,[code],(err, row) =>{
       if (err) reject(err);
       else{
-        resolve(row);
+        const n=row;
+        resolve(n);
       }
     })
   })
 }
+
+/*exports.NstudentsPerExam=async ()=>{
+  const exams= await this.listAllExam();
+  let enrolled=[];
+  for(const e of exams){
+    const number=await this.NstudentsEnrolled(e.code);
+    const val={
+      code : e.code,
+      n: number
+    };
+    enrolled.push(val);
+  }
+  return 
+}*/
 
 exports.getPlanByUserId=async(Id)=>{
   return new Promise((resolve, reject) => {

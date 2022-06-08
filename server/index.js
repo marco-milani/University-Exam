@@ -56,6 +56,33 @@ app.get('/api/exams/:code',
     });
 
 
+    app.get('/api/students/exams',
+    async (req, res) => {
+      let exams;
+      try{
+        exams= await dao.listAllExam();
+      }
+      catch(err){
+        return res.status(500).json({error: `Internal Server Error`}).end();
+      }
+      let enrolled=[];
+      for(const e of exams){
+        let number
+        try{
+          number=await dao.NstudentsEnrolled(e.code);
+          console.log(number);
+        }
+        catch(err){
+          return res.status(500).json({error: `Internal Server Error`}).end();
+        }
+        const val={
+          code : e.code,
+          n: number
+        };
+        enrolled.push(val); 
+      }
+      return res.status(200).json(enrolled).end();
+    });
 
 
     

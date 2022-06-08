@@ -11,11 +11,10 @@ function DefaultRoute() {
 }
 
 function ExamListRoute(props) {
-    console.log(props);
     return (
         <>     
             <Container fluid className='mx-auto my-3'>
-                <ExamTable exams={props.exams}> </ExamTable>
+                <ExamTable exams={props.exams} nEnr={props.nEnr}> </ExamTable>
             </Container>
         </>
     )

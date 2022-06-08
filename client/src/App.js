@@ -7,29 +7,35 @@ import { DefaultRoute, ExamListRoute } from "./components/routes"
 
 function App() {
   const [exams, setExams] = useState([]);
+  const [enrolled, setCount]= useState([]);
 
-
-
+  
   useEffect(() => {  
     const getExams = async() => {
 
     const _exams = await API.getAllExam();
     setExams(_exams);
-    console.log("qui");
   }
     getExams();
    
   }, []);
 
-  //const list= API.getAllExam();
-  //console.log(list);
-  console.log(exams);
+  useEffect(() => {  
+    const getCount = async() => {
+
+    const enr = await API.getCountEnrolled();
+    setCount(enr);
+  }
+    getCount();
+   
+  }, []);
+  
   return (
     <BrowserRouter>
     <TopBar bg='#557B83' />
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
-        <Route path='/' element={<ExamListRoute exams={exams}/>}/>
+        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled}/>}/>
      </Routes>
     </BrowserRouter>
   )
