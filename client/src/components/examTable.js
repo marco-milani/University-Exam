@@ -3,8 +3,8 @@ import {Col, Table, Button, Form} from 'react-bootstrap';
 import {Info} from 'react-bootstrap-icons';
 function ExamTable(props) {
     return (
-        <div className="align">
-            <Table striped>
+        <div className="align px-5" >
+            <Table striped >
                 <thead className='h5'>
                     <tr>
                         <th style={{textAlign:"center"}}>Code</th>
