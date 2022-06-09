@@ -7,12 +7,12 @@ function ExamTable(props) {
             <Table striped>
                 <thead className='h5'>
                     <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Credits</th>
-                        <th>Enrolled students</th>
-                        <th>Max students</th>
-                        <th>More info</th>
+                        <th style={{textAlign:"center"}}>Code</th>
+                        <th style={{textAlign:"center"}}>Name</th>
+                        <th style={{textAlign:"center"}}>Credits</th>
+                        <th style={{textAlign:"center"}}>Enrolled students</th>
+                        <th style={{textAlign:"center"}}>Max students</th>
+                        <th style={{textAlign:"center"}}>Action</th>
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
@@ -27,8 +27,8 @@ function ExamTable(props) {
 
 function ExamRow(props) {
    const [hidden,setHidden]=useState(true)
-   let str="";
-   props.exam.incompatible.map(i=>{str+=i.code2+"  "})
+   let str=props.exam.incompatible.map(i=>i.code2).join(", ");
+   //props.exam.incompatible.map(i=>{str+=i.code2+"  "})
    if(str===""){
        str="none";
    }
@@ -38,12 +38,12 @@ function ExamRow(props) {
     return(
     <>
     <tr>
-        <td>{props.exam.code}</td>
-        <td>{props.exam.name}</td>
+        <td style={{textAlign:"center"}}>{props.exam.code}</td>
+        <td style={{textAlign:"center"}}>{props.exam.name}</td>
         <td style={{textAlign:"center"}}>{props.exam.credits}</td>
         <td style={{textAlign:"center"}}>{props.n}</td>
         <td style={{textAlign:"center"}}>{props.exam.max}</td>
-        <td style={{textAlign:"center"}}><Button onClick={()=>setHidden(!hidden)}></Button> </td>
+        <td style={{textAlign:"center"}}><Button onClick={()=>setHidden(!hidden)}><Info/></Button> </td>
     </tr>
     <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
     </>
