@@ -9,12 +9,14 @@ function LoginForm(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const credentials = {username, password};
-
     props.login(credentials);
   };
   const navigate=useNavigate()
   return (
-      <Form onSubmit={handleSubmit}>
+    <Row className="justify-content-center">
+    <Col align="left" sm={4}>
+      <br/>
+      <Form onSubmit={handleSubmit} style={{ padding:'10%', backgroundColor:'#e6fae9'}}>
         <Form.Group controlId='username'>
           <Form.Label>email</Form.Label>
           <Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)} required={true}/>
@@ -24,13 +26,16 @@ function LoginForm(props) {
           <Form.Label>password</Form.Label>
           <Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} required={true}
                         minLength={6}/>
-        </Form.Group>
+        </Form.Group >
         <br/>
-        <Button type="submit">Login</Button>
+        <Button type="submit">Login</Button>{' '}
+
         <Button variant="danger" active onClick={()=>navigate('/')}>
                             Back
                         </Button>
       </Form>
+      </Col>
+      </Row>
   )
 }
 

@@ -20,7 +20,7 @@ const getAllExam = async () => {
 
 
   const logIn = async (credentials) => {
-    const response = await fetch(BASE_URL + '/api/sessions', {
+    const response = await fetch(`${BASE_URL}/api/sessions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,6 +28,7 @@ const getAllExam = async () => {
       credentials: 'include',
       body: JSON.stringify(credentials),
     });
+    console.log(response);
     if(response.ok) {
       const user = await response.json();
       return user;

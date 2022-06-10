@@ -28,7 +28,7 @@ function LoginFormRoute(props){
         <>
           <div className='m-5'>
             <Row>
-              <Col>
+              <Col style={{textAlign:"center"}}>
                 <h1>Login</h1>
               </Col>
             </Row>

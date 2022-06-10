@@ -149,7 +149,6 @@ app.post('/api/plan',
       }
     });
 
-    //TO DO login 
 
 // PUT APIs //
 
@@ -190,7 +189,7 @@ app.put('/api/plan/exams',
 // DELETE APIs //
 
 // Delete a plan given its id //
-app.delete('/api/plan/:id',
+app.delete('/api/plan/:id',isLoggedIn,
     async (req, res) => {
         const id = req.params.id;
         try {
@@ -210,6 +209,7 @@ app.delete('/api/plan/:id',
     // AUTHENTICATION
 
 app.post('/api/sessions', passport.authenticate('local'), (req, res) => {
+  console.log(req.body);
   res.status(201).json(req.user);
 });
 

@@ -3,12 +3,10 @@
 
 const sqlite = require('sqlite3');
 const {Exam} = require('./exam');
+const{db}=require("./db");
 //const dayjs = require("dayjs");
 //const { resolve } = require('path');
 
-const db = new sqlite.Database('studyPlan.db', err => {
-  if (err) throw err;
-});
 
 exports.listAllExam = async () => {
   return new  Promise(async (resolve, reject) => {

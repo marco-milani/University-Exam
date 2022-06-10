@@ -67,7 +67,8 @@ function App() {
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
         <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled}/>}/>
-        <Route path="/login" element={<LoginFormRoute login={handleLogin}></LoginFormRoute>}></Route>
+        <Route path="/login" element={<LoginFormRoute login={handleLogin}></LoginFormRoute>}/>
+        <Route path0="/studyplan" element={<ExamListRoute exams={exams} nEnr={enrolled}></ExamListRoute>}/>
      </Routes>
     </BrowserRouter>
   )
