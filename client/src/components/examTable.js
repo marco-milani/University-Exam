@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {Col, Table, Button, Form} from 'react-bootstrap';
-import {Info} from 'react-bootstrap-icons';
+import {Border, Info} from 'react-bootstrap-icons';
 function ExamTable(props) {
     return (
         <div className="align px-5" >
@@ -43,7 +43,7 @@ function ExamRow(props) {
         <td style={{textAlign:"center"}}>{props.exam.credits}</td>
         <td style={{textAlign:"center"}}>{props.n}</td>
         <td style={{textAlign:"center"}}>{props.exam.max}</td>
-        <td style={{textAlign:"center"}}><Button onClick={()=>setHidden(!hidden)}><Info/></Button> </td>
+        <td style={{textAlign:"center"}}><Button style={{borderRadius:"32px"}} variant={/*"success"*/"light"} onClick={()=>setHidden(!hidden)}><Info/></Button> </td>
     </tr>
     <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
     </>

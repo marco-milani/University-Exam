@@ -1,6 +1,8 @@
 
 import { Container } from "react-bootstrap"
 import {ExamTable} from "./examTable"
+import {LoginForm} from "./AuthComponents"
+import {Form, Button, Row, Col} from 'react-bootstrap';
 function DefaultRoute() {
     return (
         <Container className='App'>
@@ -22,6 +24,23 @@ function ExamListRoute(props) {
 }
 
 function LoginFormRoute(props){
+    return (
+        <>
+          <div className='m-5'>
+            <Row>
+              <Col>
+                <h1>Login</h1>
+              </Col>
+            </Row>
+            <br/>
+            <Row>
+              <Col>
+                <LoginForm login={props.login}/>
+              </Col>
+            </Row>
+          </div>
+        </>
+    );
 
 }
 

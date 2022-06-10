@@ -235,7 +235,7 @@ exports.deletePlan=(id)=>{
   })
 }
 
-exports.login = (film,user) => {
+exports.login = (user) => {
   return new Promise((resolve, reject) => {
     const sql = "SELECT hash FROM users WHERE email=?";
     db.get(sql, [user.email], (err) => {

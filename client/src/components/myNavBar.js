@@ -1,7 +1,9 @@
 import { Button, Container, Form, FormControl, Nav, Navbar, NavLink, NavItem } from "react-bootstrap";
+
 import "bootstrap/dist/css/bootstrap.min.css"
-import { Link } from 'react-router-dom'
+import { Link,Navigate, useNavigate } from 'react-router-dom'
 function TopBar(props) {
+    const navigate=useNavigate();
     return (
         <Navbar style={{ backgroundColor: props.bg }} expand="lg" sticky="top">
             <Container >
@@ -10,9 +12,9 @@ function TopBar(props) {
                 </Navbar.Brand>
                 <Nav>
                     <NavItem className="">
-                        <NavLink variant="outline-primary" size="lg" active>
+                        <Button variant="light" active onClick={()=>navigate('/login')}>
                             Login
-                        </NavLink>
+                        </Button>
                     </NavItem>
                 </Nav>
             </Container>
