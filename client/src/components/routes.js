@@ -35,7 +35,7 @@ function LoginFormRoute(props){
             <br/>
             <Row>
               <Col>
-                <LoginForm login={props.login}/>
+                <LoginForm setMessage={props.setMessage} setLoggedIn={props.setLoggedIn}/>
               </Col>
             </Row>
           </div>

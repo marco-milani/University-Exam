@@ -12,9 +12,13 @@ function TopBar(props) {
                 </Navbar.Brand>
                 <Nav>
                     <NavItem className="">
+                        {props.loggedIn ?
                         <Button variant="light" active onClick={()=>navigate('/login')}>
                             Login
-                        </Button>
+                        </Button> :
+                         <Button variant="light" active onClick={()=>navigate('/login')}>
+                         logout
+                     </Button>}
                     </NavItem>
                 </Nav>
             </Container>
