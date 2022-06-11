@@ -10,6 +10,7 @@ function LoginForm(props) {
     event.preventDefault();
     const credentials = {username, password};
     props.login(credentials);
+    navigate("/studyPlan");
   };
   const navigate=useNavigate()
   return (
