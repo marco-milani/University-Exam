@@ -1,18 +1,34 @@
 import {useState} from 'react';
 import {Form, Button, Row, Col, Container} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
+import API from "../API";
 function LoginForm(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
+
+  const navigate=useNavigate();
+  
+ 
+  const handleLogin = async (credentials) => {  
+    try {
+      const user = await API.logIn(credentials);
+      props.setLoggedIn(true);
+      props.setMessage({ msg: `Welcome, ${user.name}!`, type: 'success' });
+      navigate("/studyPlan");
+    } catch (err) {
+      console.log(err);
+      props.setMessage({ msg: err, type: 'danger' });
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const credentials = {username, password};
-    props.login(credentials);
-    navigate("/studyPlan");
+    handleLogin(credentials);
+    
   };
-  const navigate=useNavigate()
+  
   return (
     <Row className="justify-content-center">
     <Col align="left" sm={4}>
