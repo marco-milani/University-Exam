@@ -44,5 +44,33 @@ function LoginFormRoute(props){
 
 }
 
+function StudyPlanRoute(props) {
+  return (
+      <>     
+          <Container fluid className='mx-auto my-3'>
+            <Row>
+              <Col>
+              Exam List
+              </Col>
+              <Col>
+              <ExamTable exams={props.exams} nEnr={props.nEnr}> </ExamTable>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+              Exams Chosen
+              </Col>
+              <Col>
 
-export { DefaultRoute, ExamListRoute,LoginFormRoute }
+              </Col>
+            </Row>
+          </Container>
+      </>
+  )
+
+}
+
+
+
+
+export { DefaultRoute, ExamListRoute,LoginFormRoute,StudyPlanRoute }

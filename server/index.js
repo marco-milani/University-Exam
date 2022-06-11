@@ -30,18 +30,21 @@ app.use(cors(corsOptions));
 
 // Passport: set up local strategy
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
+  console.log(username);
   const user = await userDao.getUser(username, password)
+  console.log(user)
   if (!user)
     return cb(null, false, 'Incorrect username or password.');
 
   return cb(null, user);
 }));
 
-passport.serializeUser(function (user, cb) {
-  cb(null, user);
+passport.serializeUser( (user, cb)=> {
+  cb(null, {});
 });
 
-passport.deserializeUser(function (user, cb) { // this user is id + email + name
+
+passport.deserializeUser( (user, cb) =>{ // this user is id + email + name
   return cb(null, user);
   // if needed, we can do extra check here (e.g., double check that the user is still in the database, etc.)
 });
@@ -59,7 +62,7 @@ app.use(session({
   saveUninitialized: false,
 }));
 app.use(passport.authenticate('session'));
-
+app.use(express.json())
 
 
 /*try{  code to add default exam
@@ -208,13 +211,13 @@ app.delete('/api/plan/:id',isLoggedIn,
 
     // AUTHENTICATION
 
-app.post('/api/sessions', passport.authenticate('local'), (req, res) => {
+app.post('/api/sessions',passport.authenticate('local'), (req, res) => {
   console.log(req.body);
   res.status(201).json(req.user);
 });
 
 // GET /api/sessions/current
-app.get('/api/sessions/current', (req, res) => {
+app.get('/api/sessions/current', isLoggedIn, (req, res) => {
   if (req.isAuthenticated()) {
     res.json(req.user);
   } else
