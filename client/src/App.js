@@ -10,7 +10,7 @@ function App() {
   const [enrolled, setCount] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
-  
+  const [user, setUser] = useState(null);
 
   const getExams = async () => {
 
@@ -43,22 +43,33 @@ function App() {
       
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (loggedIn)
-      getExams().catch((e) => console.log(e));
-  }, [loggedIn]);*/
+      console.log(loggedIn);
+  }, [loggedIn]);
+
+  const handleLogout = async () => {
+    await API.logOut();
+    //console.logasd
+    setLoggedIn(false);
+    setUser(null);
+    // clean up everything
+    setMessage('');
+
+  };
+
 
 
   return (
     <BrowserRouter>
-      <TopBar bg='#557B83' loggedIn={loggedIn}/>
+      <TopBar bg='#557B83' loggedIn={loggedIn} logout={handleLogout}/>
       {message && <Row>
-        <Alert variant={message.type} onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
+        <Alert variant={message.type}  onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
       </Row>}
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
-        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} />} />
-        <Route path="/login" element={<LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn}></LoginFormRoute>} />
+        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} />} />
+        <Route path="/login" element={<LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser}></LoginFormRoute>} />
         <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled}></StudyPlanRoute> : 
         <Navigate replace to='/login' />} />
       </Routes>
