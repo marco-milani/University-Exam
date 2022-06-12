@@ -1,3 +1,7 @@
+import {Col, Table, Button, Form} from 'react-bootstrap';
+import { useEffect, useState } from "react";
+import {ArrowBarRight, Info} from 'react-bootstrap-icons';
+
 function ExamList(props){
     return(
         <div className="align px-5" >
@@ -43,7 +47,7 @@ function ExamRow(props) {
          <td style={{textAlign:"center"}}>{props.exam.max}</td>
          <td style={{textAlign:"center"}}>
              <Button style={{borderRadius:"32px"}} variant={/*"success"*/"light"} onClick={()=>setHidden(!hidden)}><Info/></Button>{' '}
-             <Button style={{borderRadius:"32px"}} variant={"success"} onClick={()=>console.log("yoyo")}><Arrow/></Button>
+             <Button style={{borderRadius:"32px"}} variant={"success"} onClick={()=>console.log("yoyo")}><ArrowBarRight/></Button>
         </td>
      </tr>
      <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
@@ -56,6 +60,7 @@ function ExamRow(props) {
 function MyPlan(props){
     return(
         <>
+        
         </>
     )
 

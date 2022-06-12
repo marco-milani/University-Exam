@@ -2,6 +2,7 @@
 import { Container } from "react-bootstrap"
 import {ExamTable} from "./examTable"
 import {LoginForm} from "./AuthComponents"
+import { ExamList,MyPlan} from "./studyPlanTable";
 import {Form, Button, Row, Col} from 'react-bootstrap';
 function DefaultRoute() {
     return (
@@ -49,19 +50,19 @@ function StudyPlanRoute(props) {
       <>     
           <Container fluid className='mx-auto my-3'>
             <Row>
-              <Col>
-              Exam List
+              <Col style={{textAlign:"center"}}>
+              <h1>Exam List</h1>
               </Col>
-              <Col>
-              <ExamTable exams={props.exams} nEnr={props.nEnr}> </ExamTable>
+              <Col style={{textAlign:"center"}}>
+              <h1>Exams Chosen</h1>
               </Col>
             </Row>
             <Row>
               <Col>
-              Exams Chosen
+              <ExamList exams={props.exams} nEnr={props.nEnr}> </ExamList>
               </Col>
               <Col>
-
+                <MyPlan> </MyPlan>
               </Col>
             </Row>
           </Container>
