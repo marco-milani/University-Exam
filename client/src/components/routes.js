@@ -1,6 +1,6 @@
 
 import { Container } from "react-bootstrap"
-import {ExamTable} from "./examTable"
+import {ExamTable, StudyPlanForm} from "./examTable"
 import {LoginForm} from "./AuthComponents"
 import { ExamList,MyPlan} from "./studyPlanTable";
 import {Form, Button, Row, Col} from 'react-bootstrap';
@@ -17,7 +17,23 @@ function ExamListRoute(props) {
     return (
         <>     
             <Container fluid className='mx-auto my-3'>
-                <ExamTable exams={props.exams} nEnr={props.nEnr}> </ExamTable>
+            <Row><Col style={{textAlign:"center"}}>
+               {props.loggedIn ? <StudyPlanForm></StudyPlanForm> : ""}
+                
+                </Col>
+                </Row>
+                <br/>
+              <br/>
+              <br/>
+              <Row><Col style={{textAlign:"center"}}>
+              <h1>Exam List</h1>
+              </Col>
+              <br/>
+              <br/>
+              <br/>
+               </Row>
+               <ExamTable exams={props.exams} nEnr={props.nEnr}> </ExamTable>
+              
             </Container>
         </>
     )
@@ -36,7 +52,7 @@ function LoginFormRoute(props){
             <br/>
             <Row>
               <Col>
-                <LoginForm setMessage={props.setMessage} setLoggedIn={props.setLoggedIn}/>
+                <LoginForm setMessage={props.setMessage} setLoggedIn={props.setLoggedIn} setUser={props.setUser}/>
               </Col>
             </Row>
           </div>
@@ -61,7 +77,7 @@ function StudyPlanRoute(props) {
               <Col>
               <ExamList exams={props.exams} nEnr={props.nEnr}> </ExamList>
               </Col>
-              <Col>
+              <Col style={{textAlign:"center"}}>
                 <MyPlan> </MyPlan>
               </Col>
             </Row>

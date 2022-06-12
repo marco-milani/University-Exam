@@ -47,7 +47,7 @@ const getAllExam = async () => {
     if (response.ok) {
       return user;
     } else {
-      return user;  // an object with the error coming from the server
+      throw user;  // an object with the error coming from the server
     }
   };
   

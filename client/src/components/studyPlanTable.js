@@ -2,7 +2,23 @@ import {Col, Table, Button, Form} from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import {ArrowBarRight, Info} from 'react-bootstrap-icons';
 
+/*const [plan, setPlan] = useState([]);
+const getPlan = async () => {
+
+    const _plan = await API.getAllExam();
+    setPlan(_plan);
+  }
+  useEffect(() => {
+
+    getPlan();
+
+  }, []);*/
+  let planExams=[];
+  let exChosen;
+  let list
 function ExamList(props){
+    list=props.exams;
+    
     return(
         <div className="align px-5" >
             <Table striped >
@@ -28,9 +44,10 @@ function ExamList(props){
 }
 
 function ExamRow(props) {
+    
     const [hidden,setHidden]=useState(true)
+    const[hidden2,setHidden2]=useState(false);
     let str=props.exam.incompatible.map(i=>i.code2).join(", ");
-    //props.exam.incompatible.map(i=>{str+=i.code2+"  "})
     if(str===""){
         str="none";
     }
@@ -39,15 +56,23 @@ function ExamRow(props) {
     }
      return(
      <>
-     <tr>
+     <tr hidden={hidden2}>
          <td style={{textAlign:"center"}}>{props.exam.code}</td>
          <td style={{textAlign:"center"}}>{props.exam.name}</td>
          <td style={{textAlign:"center"}}>{props.exam.credits}</td>
          <td style={{textAlign:"center"}}>{props.n}</td>
          <td style={{textAlign:"center"}}>{props.exam.max}</td>
          <td style={{textAlign:"center"}}>
-             <Button style={{borderRadius:"32px"}} variant={/*"success"*/"light"} onClick={()=>setHidden(!hidden)}><Info/></Button>{' '}
-             <Button style={{borderRadius:"32px"}} variant={"success"} onClick={()=>console.log("yoyo")}><ArrowBarRight/></Button>
+             <Button style={{borderRadius:"32px"}} variant={"light"} onClick={()=>setHidden(!hidden)}><Info/></Button>{' '}
+             <Button style={{borderRadius:"32px"}} variant={"success"} className="mt-2"
+                onClick={()=>list.map((el)=>{if(el.code===props.exam.code){
+                    exChosen=el;
+                    setHidden2(true);
+                    setHidden(true);
+                }
+                })}>
+                 
+                 <ArrowBarRight/></Button>
         </td>
      </tr>
      <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
@@ -59,9 +84,33 @@ function ExamRow(props) {
 
 function MyPlan(props){
     return(
-        <>
+        <div className="align px-5" >
+        <Button variant="success" active>
+                            Save Plan
+                        </Button>{' '} 
+                         <Button variant="danger" active >
+                         Delete Plan
+         </Button>
+         <br/> <br/> <br/>
+         <Table striped >
+                <thead className='h5'>
+                    <tr>
+                        <th style={{textAlign:"center"}}>Code</th>
+                        <th style={{textAlign:"center"}}>Name</th>
+                        <th style={{textAlign:"center"}}>Credits</th>
+                        <th style={{textAlign:"center"}}>Enrolled students</th>
+                        <th style={{textAlign:"center"}}>Max students</th>
+                        <th style={{textAlign:"center"}}>Action</th>
+                    </tr>
+                </thead>
+                <tbody style={{ backgroundColor: "#e6fae9" }}>
+                    
+                    
+                </tbody>
+            </Table>
+
         
-        </>
+        </div>
     )
 
 }

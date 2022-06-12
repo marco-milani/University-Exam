@@ -10,7 +10,7 @@ function App() {
   const [enrolled, setCount] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
-  
+  const [user, setUser] = useState(null);
 
   const getExams = async () => {
 
@@ -35,31 +35,43 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      await API.getUserInfo(); // we have the user info here
-      setLoggedIn(true);
+      
+        await API.getUserInfo(); // we have the user info here
+        setLoggedIn(true);
+      
     };
     checkAuth()
-      .catch((e) => console.log(e));
+      .catch((e) => setLoggedIn(false));
       
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (loggedIn)
-      getExams().catch((e) => console.log(e));
-  }, [loggedIn]);*/
+      console.log(loggedIn);
+  }, [loggedIn]);
+
+  const handleLogout = async () => {
+    await API.logOut();
+    setLoggedIn(false);
+    setUser(null);
+    setMessage('');
+    
+
+  };
+
 
 
   return (
     <BrowserRouter>
-      <TopBar bg='#557B83' loggedIn={loggedIn}/>
+      <TopBar bg='#557B83' loggedIn={loggedIn} logout={handleLogout}/>
       {message && <Row>
-        <Alert variant={message.type} onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
+        <Alert variant={message.type}  onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
       </Row>}
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
-        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} />} />
-        <Route path="/login" element={<LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn}></LoginFormRoute>} />
-        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled}></StudyPlanRoute> : 
+        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} user={user}/>} />
+        <Route path="/login" element={loggedIn ?  <Navigate replace to='/studyPlan' /> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser}></LoginFormRoute>} />
+        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user}></StudyPlanRoute> : 
         <Navigate replace to='/login' />} />
       </Routes>
     </BrowserRouter>

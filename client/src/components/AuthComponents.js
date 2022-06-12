@@ -14,11 +14,12 @@ function LoginForm(props) {
     try {
       const user = await API.logIn(credentials);
       props.setLoggedIn(true);
-      props.setMessage({ msg: `Welcome, ${user.name}!`, type: 'success' });
-      navigate("/studyPlan");
+      props.setMessage({ msg: `Welcome, ${user.name} ${user.surname} !`, type: 'success' });
+      props.setUser(user);
+      navigate("/");
     } catch (err) {
-      console.log(err);
-      props.setMessage({ msg: err, type: 'danger' });
+      
+      props.setMessage({ msg: "Wrong username or password", type: 'danger' });
     }
   };
 
@@ -56,14 +57,5 @@ function LoginForm(props) {
   )
 }
 
-/*function LogoutButton(props) {
-  return (
-      <Row>
-        <Col>
-          <Button variant="outline-primary" onClick={props.logout}>Logout</Button>
-        </Col>
-      </Row>
-  )
-}*/
 
-export {LoginForm, /*LogoutButton*/};
+export {LoginForm, };
