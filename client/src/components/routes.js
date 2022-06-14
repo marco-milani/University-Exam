@@ -18,7 +18,7 @@ function ExamListRoute(props) {
         <>     
             <Container fluid className='mx-auto my-3'>
             <Row><Col style={{textAlign:"center"}}>
-               {props.loggedIn ? <StudyPlanForm></StudyPlanForm> : ""}
+               {props.loggedIn ? <StudyPlanForm user={props.user} plan={props.plan} getPlan={props.gettPlan} setPlan={props.setPlan}></StudyPlanForm> : ""}
                 
                 </Col>
                 </Row>
@@ -52,7 +52,7 @@ function LoginFormRoute(props){
             <br/>
             <Row>
               <Col>
-                <LoginForm setMessage={props.setMessage} setLoggedIn={props.setLoggedIn} setUser={props.setUser}/>
+                <LoginForm setMessage={props.setMessage} setLoggedIn={props.setLoggedIn} setUser={props.setUser} getPlan={props.getPlan}/>
               </Col>
             </Row>
           </div>
@@ -75,10 +75,10 @@ function StudyPlanRoute(props) {
             </Row>
             <Row>
               <Col>
-              <ExamList exams={props.exams} nEnr={props.nEnr}> </ExamList>
+              <ExamList exams={props.exams} nEnr={props.nEnr} plan={props.plan} getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan}></ExamList>
               </Col>
               <Col style={{textAlign:"center"}}>
-                <MyPlan> </MyPlan>
+                <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} exams={props.exams} nEnr={props.nEnr} plan={props.plan} setPlan={props.setPlan}> </MyPlan>
               </Col>
             </Row>
           </Container>

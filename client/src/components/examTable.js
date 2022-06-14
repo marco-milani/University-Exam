@@ -62,19 +62,23 @@ function StudyPlanForm(props) {
     const navigate=useNavigate();
     const [hidden, setHidden] = useState(false)
     const [type,setType]=useState("FullTime");
-    const handleSubmit = (event) => {
+    const handleSubmit =async (event) => {
+        event.preventDefault();
+       
         const sp={
             type:type,
             credits:0,
-            //userId:props.user.id //TODO mettere id giusto
+            userId:props.user.id 
         }
-        //API.NewPlan() amcora da fare
-        navigate("./studyPlan");
+        await API.newPlan(sp);
+        await props.getPlan();
+        navigate("/studyPlan");
     }
     return (
         <>
+            <Button variant="success" hidden={hidden} onClick={() => navigate("./studyPlan")}> Modify Study Plan </Button>
             <Button variant="success" hidden={hidden} onClick={() => setHidden(!hidden)}> New Study Plan </Button>
-            <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}> {/* TODO fix dimensione*/} 
+            <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}> 
             <Form.Label>Select type of study plan</Form.Label>
                 <Form.Select aria-label="studyplan choose Chiellini top player"  onChange={event => setType(event.target.value)}> 
                     <option defaultValue={true} value="fullTime">Full time</option>

@@ -1,20 +1,8 @@
 import {Col, Table, Button, Form} from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import {ArrowBarRight, Info} from 'react-bootstrap-icons';
-
-/*const [plan, setPlan] = useState([]);
-const getPlan = async () => {
-
-    const _plan = await API.getAllExam();
-    setPlan(_plan);
-  }
-  useEffect(() => {
-
-    getPlan();
-
-  }, []);*/
-  let planExams=[];
-  let exChosen;
+import API from "../API"
+  
   let list
 function ExamList(props){
     list=props.exams;
@@ -66,7 +54,6 @@ function ExamRow(props) {
              <Button style={{borderRadius:"32px"}} variant={"light"} onClick={()=>setHidden(!hidden)}><Info/></Button>{' '}
              <Button style={{borderRadius:"32px"}} variant={"success"} className="mt-2"
                 onClick={()=>list.map((el)=>{if(el.code===props.exam.code){
-                    exChosen=el;
                     setHidden2(true);
                     setHidden(true);
                 }
@@ -88,7 +75,7 @@ function MyPlan(props){
         <Button variant="success" active>
                             Save Plan
                         </Button>{' '} 
-                         <Button variant="danger" active >
+                         <Button variant="danger" active onClick={()=>{API.deletePlan(props.plan.id)}}>
                          Delete Plan
          </Button>
          <br/> <br/> <br/>

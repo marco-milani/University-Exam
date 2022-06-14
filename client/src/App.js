@@ -11,6 +11,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
   const [user, setUser] = useState(null);
+  const [plan, setPlan] = useState(null);
+  const [examPlan,setExamPlan]=useState([]);
 
   const getExams = async () => {
 
@@ -41,7 +43,7 @@ function App() {
       
     };
     checkAuth()
-      .catch((e) => setLoggedIn(false));
+      .catch((e) =>{ setLoggedIn(false); setUser(null)});
       
   }, []);
 
@@ -55,9 +57,35 @@ function App() {
     setLoggedIn(false);
     setUser(null);
     setMessage('');
-    
-
+    setPlan(null);
+    setExamPlan([]); 
   };
+
+  const getPlan = async () => {
+    if(loggedIn){
+        const _plan = await API.getPlan();
+        setPlan(_plan);
+    }
+    else{
+        setPlan(null);
+    }
+  }
+  useEffect(() => {
+    getPlan();
+  }, []);
+
+  const getExPlan=async()=>{
+    if(loggedIn){
+      const explan = await API.getExPlan();
+      setExamPlan(explan);
+  }
+  else{
+    setExamPlan([]);
+  }
+  }
+  useEffect(() => {
+    getExPlan();
+  }, []);
 
 
 
@@ -69,9 +97,9 @@ function App() {
       </Row>}
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
-        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} user={user}/>} />
-        <Route path="/login" element={loggedIn ?  <Navigate replace to='/studyPlan' /> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser}></LoginFormRoute>} />
-        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user}></StudyPlanRoute> : 
+        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan}/>} />
+        <Route path="/login" element={loggedIn ?  <Navigate replace to='/studyPlan'/> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser} getPlan={getPlan}></LoginFormRoute>}/>
+        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user} plan={plan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan}></StudyPlanRoute> : 
         <Navigate replace to='/login' />} />
       </Routes>
     </BrowserRouter>

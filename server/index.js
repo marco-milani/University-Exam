@@ -3,7 +3,7 @@
 const express = require('express');
 const res = require('express/lib/response');
 const morgan = require('morgan');
-const {check, validationResult} = require("express-validator");
+const {check, validationResult, param} = require("express-validator");
 const dao = require('./dao');
 const userDao = require('./user-dao');
 const PORT = 3001;
@@ -30,9 +30,7 @@ app.use(cors(corsOptions));
 
 // Passport: set up local strategy
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
-  console.log(username);
   const user = await userDao.getUser(username, password)
-  console.log(user)
   if (!user)
     return cb(null, false, 'Incorrect username or password.');
 
@@ -100,7 +98,18 @@ app.get('/api/exams/:code',
         return res.status(500).json({error: `Internal Server Error`}).end();
       }
     });
+    app.get("/api/studyPlan/exams",async (req, res) => {
+      let exList;
+      try {
+        exList = await dao.getExamsPlan(req.body.id);
+        return res.status(200).json(exList).end();
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({error: `Internal Server Error`}).end();
+      }
+      
 
+    })
 
     app.get('/api/students/exams',
     async (req, res) => {
@@ -129,13 +138,31 @@ app.get('/api/exams/:code',
       return res.status(200).json(enrolled).end();
     });
 
+    app.get('/api/plan',
+    async (req, res) => {
+      let plan;
+      try{
+        plan= await dao.getPlanByUserId(req.body.userId);
+        if(plan){
+          return res.status(200).json(plan).end();
+        }
+        else{
+          return res.status(404).json({error: `PlanId ${id} not found.`}).end();
+        }
+      }
+      catch(err){
+        return res.status(500).json({error: `Internal Server Error`}).end();
+      }
+     
 
+
+    })
     
 
 // POST APIs //
 
 // Create a new study plan //
-app.post('/api/plan',
+app.post('/api/plan',isLoggedIn,
     [check("type").exists(),
       check("userId").exists().isNumeric()],
     async (req, res) => {
@@ -155,7 +182,7 @@ app.post('/api/plan',
 
 // PUT APIs //
 
-app.put('/api/plan/exams',
+app.put('/api/plan/exams',isLoggedIn,
     [check("exams").exists(),
       check("userId").exists()],
     async (req, res) => {     
@@ -172,7 +199,7 @@ app.put('/api/plan/exams',
       }
     });
 
-    app.put('/api/plan/exams/remove',
+    app.put('/api/plan/exams/remove',isLoggedIn,
     [check("exams").exists(),
       check("userId").exists()],
     async (req, res) => {     
