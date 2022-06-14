@@ -23,7 +23,7 @@ const getAllExam = async () => {
     const planJSON = await response.json();
     if (response.ok) {
       return planJSON;
-    } else throw planJSON;
+    } else return null;
   };
   const getExPlan = async () => {
     const response = await fetch(`${BASE_URL}/api/studyPlan/exams`, {credentials: 'include'});

@@ -18,7 +18,7 @@ function ExamListRoute(props) {
         <>     
             <Container fluid className='mx-auto my-3'>
             <Row><Col style={{textAlign:"center"}}>
-               {props.loggedIn ? <StudyPlanForm user={props.user} plan={props.plan} getPlan={props.gettPlan} setPlan={props.setPlan}></StudyPlanForm> : ""}
+               {props.loggedIn ? <StudyPlanForm user={props.user} plan={props.plan} getPlan={props.getPlan} setPlan={props.setPlan}></StudyPlanForm> : ""}
                 
                 </Col>
                 </Row>

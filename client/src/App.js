@@ -72,7 +72,7 @@ function App() {
   }
   useEffect(() => {
     getPlan();
-  }, []);
+  }, [loggedIn]);
 
   const getExPlan=async()=>{
     if(loggedIn){
@@ -85,7 +85,7 @@ function App() {
   }
   useEffect(() => {
     getExPlan();
-  }, []);
+  }, [loggedIn]);
 
 
 

@@ -16,7 +16,7 @@ function LoginForm(props) {
       props.setLoggedIn(true);
       props.setMessage({ msg: `Welcome, ${user.name} ${user.surname} !`, type: 'success' });
       props.setUser(user);
-      //props.getPlan().catch(()=>{props.setPlan(null)});
+      await props.getPlan();
       navigate("/");
     } catch (err) {
       

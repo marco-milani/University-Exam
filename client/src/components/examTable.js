@@ -74,21 +74,31 @@ function StudyPlanForm(props) {
         await props.getPlan();
         navigate("/studyPlan");
     }
+    let Bonucci;
+    console.log(props.plan)
+    if(props.plan!==null){
+        Bonucci=<Button variant="success" hidden={hidden} onClick={() => navigate("/studyPlan")}> Modify Study Plan </Button>
+    }
+    else{
+        
+        Bonucci=<>
+        <Button variant="success" hidden={hidden} onClick={() => setHidden(!hidden)}> New Study Plan </Button>
+        <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}> 
+        <Form.Label>Select type of study plan</Form.Label>
+            <Form.Select aria-label="studyplan choose Chiellini top player"  onChange={event => setType(event.target.value)}> 
+                <option defaultValue={true} value="fullTime">Full time</option>
+                <option value="partTime">Part time</option>
+            </Form.Select>
+            <br/>
+            <Button className='col-2' variant="success" type="submit" style={{ fontSize: fontSize }}>Save</Button>
+      &nbsp;
+        <Button className='col-2' variant="danger" style={{ fontSize: fontSize }} onClick={() => setHidden(!hidden)}>Cancel</Button>
+        </Form>
+        </>
+    }
     return (
         <>
-            <Button variant="success" hidden={hidden} onClick={() => navigate("./studyPlan")}> Modify Study Plan </Button>
-            <Button variant="success" hidden={hidden} onClick={() => setHidden(!hidden)}> New Study Plan </Button>
-            <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}> 
-            <Form.Label>Select type of study plan</Form.Label>
-                <Form.Select aria-label="studyplan choose Chiellini top player"  onChange={event => setType(event.target.value)}> 
-                    <option defaultValue={true} value="fullTime">Full time</option>
-                    <option value="partTime">Part time</option>
-                </Form.Select>
-                <br/>
-                <Button className='col-2' variant="success" type="submit" style={{ fontSize: fontSize }}>Save</Button>
-          &nbsp;
-            <Button className='col-2' variant="danger" style={{ fontSize: fontSize }} onClick={() => setHidden(!hidden)}>Cancel</Button>
-            </Form>
+        {Bonucci}
         </>
     )
 
