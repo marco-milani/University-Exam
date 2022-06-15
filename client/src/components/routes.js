@@ -64,6 +64,7 @@ function LoginFormRoute(props){
 
 function StudyPlanRoute(props) {
   const navigate=useNavigate();
+  
   return (
       <>     
           <Container fluid className='mx-auto my-3'>
@@ -80,7 +81,7 @@ function StudyPlanRoute(props) {
               <ExamList exams={props.exams} nEnr={props.nEnr} plan={props.plan} getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan}></ExamList>
               </Col>
               <Col style={{textAlign:"center"}}>
-                <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} exams={props.exams} nEnr={props.nEnr} plan={props.plan} setPlan={props.setPlan}> </MyPlan>
+                <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} getExPlan={props.getExPlan} exams={props.exams} nEnr={props.nEnr} plan={props.plan} setPlan={props.setPlan}> </MyPlan>
               </Col>
             </Row>
             <Button variant="danger" active onClick={()=>{navigate("/")}}> Back</Button>

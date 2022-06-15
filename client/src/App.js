@@ -48,8 +48,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (loggedIn)
-      console.log(loggedIn);
   }, [loggedIn]);
 
   const handleLogout = async () => {
@@ -64,6 +62,7 @@ function App() {
   const getPlan = async () => {
     if(loggedIn){
         const _plan = await API.getPlan();
+        await getExPlan();
         setPlan(_plan);
     }
     else{
@@ -75,7 +74,8 @@ function App() {
   }, [loggedIn]);
 
   const getExPlan=async()=>{
-    if(loggedIn){
+    if(loggedIn&&plan!=null){
+      console.log(plan);
       const explan = await API.getExPlan(plan.id);
       setExamPlan(explan);
   }
@@ -101,7 +101,7 @@ function App() {
         <Route path='*' element={<DefaultRoute />} />
         <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan}/>} />
         <Route path="/login" element={loggedIn ?  <Navigate replace to='/studyPlan'/> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser} getPlan={getPlan}></LoginFormRoute>}/>
-        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user} plan={plan} setPlan={setPlan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan}></StudyPlanRoute> : 
+        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user} plan={plan} setPlan={setPlan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan} getExPlan={getExPlan}></StudyPlanRoute> : 
         <Navigate replace to='/login' />} />
       </Routes>
     </BrowserRouter>

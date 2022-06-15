@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-
+//TO DO :  messaggio errore, save plan, remove exam from myPlan table,  get planExam
 let list
 function ExamList(props) {
     list = props.exams;
@@ -42,6 +42,28 @@ function ExamRow(props) {
     if (props.exam.preparation === null) {
         props.exam.preparation = "none";
     }
+    let buttonblocked = <Button disabled style={{ borderRadius: "32px" }} variant={"danger"} className="mt-2">
+        <Stop/></Button>;
+
+    
+    if(props.exam.preparation!="none" && ! props.examPlan.map((x)=>x.code).includes(props.exam.preparation)){
+        addButton=buttonblocked;
+    }
+    let buttonCheck = <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
+    onClick={() => list.forEach((el) => {
+        if (el.code === props.exam.code) {
+            setHidden2(true);
+            setHidden(true);
+            props.setExamPlan(oldExams => [...oldExams, el]);
+        }
+    })}><ArrowBarRight/></Button>;
+
+    let addButton = buttonCheck;
+
+    if( props.examPlan.map((x)=>x.preparation).includes(props.exam.code)){
+        addButton=buttonblocked;
+    }
+
     return (
         <>
             <tr hidden={hidden2}>
@@ -52,16 +74,22 @@ function ExamRow(props) {
                 <td style={{ textAlign: "center" }}>{props.exam.max}</td>
                 <td style={{ textAlign: "center" }}>
                     <Button style={{ borderRadius: "32px" }} variant={"light"} onClick={() => setHidden(!hidden)}><Info /></Button>{' '}
-                    <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
-                        onClick={() => list.map((el) => {
+                    {addButton}
+                    {/*<Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
+                        onClick={() => list.forEach((el) => {
                             if (el.code === props.exam.code) {
                                 setHidden2(true);
                                 setHidden(true);
-                                props.setExamPlan(oldExams => [...oldExams, el]);
+                                props.setExamPlan(oldExams =>{
+                                    let arr=[];
+                                    arr=oldExams;
+                                    arr.filter(item=> {return item!=el})
+                                    return [arr];
+                                });
                             }
                         })}>
 
-                        <ArrowBarRight/></Button>
+                    <ArrowBarRight/></Button>*/}
                 </td>
             </tr>
             <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
@@ -73,6 +101,19 @@ function ExamRow(props) {
 
 function MyPlan(props) {
     const navigate = useNavigate();
+
+    /*const [credits,setCredits]=useState(0);
+    setCredits(props.examPlan.forEach((ep)=>{
+        let tot=0;
+        tot+=ep.credits;
+    }))*/
+    let credits=0;
+    props.examPlan.forEach((ep)=>{
+        
+        credits+=ep.credits;
+    })
+
+
     return (
         <div className="align px-5" >
             <Table striped >
@@ -95,9 +136,11 @@ function MyPlan(props) {
             <Button variant="success" active>
                 Save Plan
             </Button>{' '}
-            <Button variant="danger" active onClick={() => { API.deletePlan(props.plan); props.setPlan(null); navigate("/") }}>
+            <Button variant="danger" active onClick={() => { API.deletePlan(props.plan.id); props.setPlan(null); navigate("/") }}>
                 Delete Plan
             </Button>
+            <br /><br />
+            <label> <h2>Tot Credits : {credits}</h2> </label>
 
         </div>
     )

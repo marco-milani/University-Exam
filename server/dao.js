@@ -100,6 +100,7 @@ exports.NstudentsEnrolled = (code) => {
 exports.getExamsPlan = async (id) => {
   return new Promise(async (resolve, reject) => {
     const sql = "SELECT code FROM planExam WHERE id=?";
+    console.log(id);
     let exList = [];
     db.all(sql, [id], async (err, row) => {
       if (err) reject(err);
@@ -119,13 +120,13 @@ exports.getExamsPlan = async (id) => {
 
 exports.getPlanByUserId = async (Id) => {
   return new Promise((resolve, reject) => {
-    const sql2 = "SELECT id from plan WHERE userId=?";
+    const sql2 = "SELECT * from plan WHERE userId=?";
     db.get(sql2, Id, (err, row) => {
       if (err) reject(err);
       else {
         let planId;
         if (row) {
-          planId = row.id;
+          planId = row;
         }
         resolve(planId);
       }
@@ -227,24 +228,29 @@ exports.deleteExamPlan = async (exams, userId) => {
 exports.deletePlan = (id) => {
   return new Promise(async(resolve, reject) => {
     const sql = "DELETE FROM plan WHERE id=?";
+    db.run(sql, [id], async (err) => {// elimino plan 
+      if (err){
+        reject(err);
+        console.err(err);
+      }
+     await this.deleteAllexamPlan(id); 
+     resolve(this.lastID);
+    });
+    
+})
+}
+
+exports.deleteAllexamPlan=(id)=>{
+  return new Promise((resolve, reject) => {
+    const sql = "DELETE FROM planExam WHERE id=?";
     db.run(sql, [id], (err) => {// elimino plan 
       if (err){
         reject(err);
         console.err(err);
-      }else
+      }
+      else
         resolve(this.lastID);
     });
-    return new Promise((resolve, reject) => {
-      const sql = "DELETE FROM planExam WHERE id=?";
-      db.run(sql, [id], (err) => {// elimino plan 
-        if (err){
-          reject(err);
-          console.err(err);
-        }
-        else
-          resolve(this.lastID);
-      });
-    })
   })
 }
 

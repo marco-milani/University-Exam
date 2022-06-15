@@ -26,7 +26,7 @@ const getAllExam = async () => {
     } else return null;
   };
   const getExPlan = async (planId) => {
-    const response = await fetch(`${BASE_URL}/api/studyPlan/exams`, {credentials: 'include',body: JSON.stringify(planId)});
+    const response = await fetch(`${BASE_URL}/api/studyPlan/exams/${planId}`, {credentials: 'include'});
     const exPlanJSON = await response.json();
     if (response.ok) {
       return exPlanJSON;
@@ -51,12 +51,11 @@ const getAllExam = async () => {
   const deletePlan=async(id)=>{
     const response = await fetch(`${BASE_URL}/api/plan/${id}`, {
     method:"DELETE",
-     credentials: 'include'});
-     const planJSON = await response.json();
-     console.log(response);
+     credentials: 'include'
+    });
      if (response.ok) {
-       return planJSON;
-     } else throw planJSON;
+       return null;
+     } else throw response.json();
 
   }
   const logIn = async (credentials) => {
