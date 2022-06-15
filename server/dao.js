@@ -108,9 +108,11 @@ exports.getExamsPlan = async (id) => {
           const ex= await this.getExamByCode(e.code);
           exList.push(ex);
         }
+        resolve(exList);
       }
     })
-    resolve(exList);
+    
+    
   })
 };
 
@@ -226,16 +228,19 @@ exports.deletePlan = (id) => {
   return new Promise(async(resolve, reject) => {
     const sql = "DELETE FROM plan WHERE id=?";
     db.run(sql, [id], (err) => {// elimino plan 
-      if (err)
+      if (err){
         reject(err);
-      else
+        console.err(err);
+      }else
         resolve(this.lastID);
     });
     return new Promise((resolve, reject) => {
       const sql = "DELETE FROM planExam WHERE id=?";
       db.run(sql, [id], (err) => {// elimino plan 
-        if (err)
+        if (err){
           reject(err);
+          console.err(err);
+        }
         else
           resolve(this.lastID);
       });
