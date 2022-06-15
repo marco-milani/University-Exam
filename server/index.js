@@ -98,6 +98,7 @@ app.get('/api/exams/:code',
       return res.status(500).json({ error: `Internal Server Error` }).end();
     }
   });
+  
 app.get("/api/studyPlan/exams", async (req, res) => {
   let exList;
   try {
@@ -240,7 +241,6 @@ app.delete('/api/plan/:id', isLoggedIn,
 // AUTHENTICATION
 
 app.post('/api/sessions', passport.authenticate('local'), (req, res) => {
-  console.log(req.body);
   res.status(201).json(req.user);
 });
 

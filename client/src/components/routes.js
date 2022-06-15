@@ -4,6 +4,7 @@ import {ExamTable, StudyPlanForm} from "./examTable"
 import {LoginForm} from "./AuthComponents"
 import { ExamList,MyPlan} from "./studyPlanTable";
 import {Form, Button, Row, Col} from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 function DefaultRoute() {
     return (
         <Container className='App'>
@@ -62,6 +63,7 @@ function LoginFormRoute(props){
 }
 
 function StudyPlanRoute(props) {
+  const navigate=useNavigate();
   return (
       <>     
           <Container fluid className='mx-auto my-3'>
@@ -81,6 +83,7 @@ function StudyPlanRoute(props) {
                 <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} exams={props.exams} nEnr={props.nEnr} plan={props.plan} setPlan={props.setPlan}> </MyPlan>
               </Col>
             </Row>
+            <Button variant="danger" active onClick={()=>{navigate("/")}}> Back</Button>
           </Container>
       </>
   )

@@ -223,7 +223,7 @@ exports.deleteExamPlan = async (exams, userId) => {
   );
 }
 exports.deletePlan = (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
     const sql = "DELETE FROM plan WHERE id=?";
     db.run(sql, [id], (err) => {// elimino plan 
       if (err)

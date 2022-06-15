@@ -76,7 +76,7 @@ function App() {
 
   const getExPlan=async()=>{
     if(loggedIn){
-      const explan = await API.getExPlan();
+      const explan = await API.getExPlan(plan.id);
       setExamPlan(explan);
   }
   else{
@@ -87,7 +87,9 @@ function App() {
     getExPlan();
   }, [loggedIn]);
 
-
+  /*const addExam = (exam) => {
+    setExamPlan(oldExam => [...oldExam, exam]);
+  }*/
 
   return (
     <BrowserRouter>

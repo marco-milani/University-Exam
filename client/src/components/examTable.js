@@ -75,7 +75,6 @@ function StudyPlanForm(props) {
         navigate("/studyPlan");
     }
     let Bonucci;
-    console.log(props.plan)
     if(props.plan!==null){
         Bonucci=<Button variant="success" hidden={hidden} onClick={() => navigate("/studyPlan")}> Modify Study Plan </Button>
     }
