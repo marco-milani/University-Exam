@@ -38,9 +38,9 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       
-        await API.getUserInfo(); // we have the user info here
+        const user=await API.getUserInfo(); // we have the user info here
         setLoggedIn(true);
-      
+        setUser(user);
     };
     checkAuth()
       .catch((e) =>{ setLoggedIn(false); setUser(null)});
@@ -101,7 +101,7 @@ function App() {
         <Route path='*' element={<DefaultRoute />} />
         <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan}/>} />
         <Route path="/login" element={loggedIn ?  <Navigate replace to='/studyPlan'/> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser} getPlan={getPlan}></LoginFormRoute>}/>
-        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user} plan={plan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan}></StudyPlanRoute> : 
+        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user} plan={plan} setPlan={setPlan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan}></StudyPlanRoute> : 
         <Navigate replace to='/login' />} />
       </Routes>
     </BrowserRouter>

@@ -226,10 +226,8 @@ app.delete('/api/plan/:id', isLoggedIn,
     const id = req.params.id;
     try {
       const result = await dao.deletePlan(id);
-      if (result)
-        return res.status(204).end();
-      else
-        return res.status(404).json({ error: `PlanId ${id} not found.` }).end();
+
+      return res.status(204).end();
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: `Internal Server Error` }).end();
