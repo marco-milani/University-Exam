@@ -1,9 +1,9 @@
-import { Col, Table, Button, Form } from 'react-bootstrap';
+import { Col, Table, Button, Form,OverlayTrigger,Tooltip} from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO :  messaggio errore, save plan, get planExam, check on max number
+//TO DO : get planExam, save plan-> check on max number,check on credits, ripristinare su exam table esami cancellati da my plan
 let list
 function ExamList(props) {
     list = props.exams;
@@ -32,7 +32,7 @@ function ExamList(props) {
 
 }
 
-function ExamRow(props) {
+function ExamRow(props) { //row of my plan
     const [hidden, setHidden] = useState(true)
     let str = props.exam.incompatible.map(i => i.code2).join(", ");
     if (str === "") {
@@ -41,9 +41,14 @@ function ExamRow(props) {
     if (props.exam.preparation === null) {
         props.exam.preparation = "none";
     }
-    let buttonblocked = <Button disabled style={{ borderRadius: "32px" }} variant={"danger"} className="mt-2">
-        <Stop/></Button>;
+    let buttonblocked = <OverlayTrigger overlay={<Tooltip id={props.exam.code}>Can't remove this course because it's obbligatory for a course you choose</Tooltip>}>
+     <span className="d-inline-block">
+      <Button disabled style={{ borderRadius: "32px",pointerEvents: 'none' }} variant={"danger"} className="mt-2">
+        <Stop/></Button>
+     </span>
+    </OverlayTrigger>;
 
+    
     
     if(props.exam.preparation!="none" && ! props.examPlan.map((x)=>x.code).includes(props.exam.preparation)){
         addButton=buttonblocked;
@@ -140,7 +145,7 @@ function MyPlan(props) {
 
 }
 
-function ExamRow2(props) {
+function ExamRow2(props) { //row of exam table
 
     const [hidden, setHidden] = useState(true)
     const [hidden2, setHidden2] = useState(false);
@@ -160,31 +165,42 @@ function ExamRow2(props) {
         }
     })}>
     <ArrowBarRight/></Button>;
-
-    let buttonblocked = <Button disabled style={{ borderRadius: "32px" }} variant={"danger"} className="mt-2"
-        onClick={() => list.map((el) => {
-            if (el.code === props.exam.code) {
-                setHidden(true);
-            }
-        })}>
-        <Stop/></Button>;
-
+    let flag; //used to set both error message
+    let stri="";// error message to display
     let addButton = buttonCheck;
     if(props.exam.preparation!="none" && ! props.examPlan.map((x)=>x.code).includes(props.exam.preparation)){
-        addButton=buttonblocked;
+        flag=1;
+        stri="Can't add this course becouse it needs a preparatory course to be chosen"
+       
     }
 
     for(const planItem of props.examPlan){
             for(const i of props.exam.incompatible){
                 if(i.code2===planItem.code){
-                    addButton=buttonblocked;
+                    if(flag!==1){
+                        stri="Can't add this course becouse it's incompatible with other courses"
+                    }
+                    else{
+                        stri="Can't add this course becouse it's incompatible with other courses and needs a preparatory course to be chosen"
+                    }
+                    flag=1;
                 }
             }
     }
-
-
-
-
+    let buttonblocked = <OverlayTrigger overlay={<Tooltip id={props.exam.code}>{stri}</Tooltip>}>
+        <span className="d-inline-block">
+    <Button disabled style={{ borderRadius: "32px",pointerEvents: 'none'  }} variant={"danger"} className="mt-2"
+        onClick={() => list.map((el) => {
+            if (el.code === props.exam.code) {
+                setHidden(true);
+            }
+        })}>
+        <Stop/></Button>
+        </span>
+        </OverlayTrigger>
+    if(flag===1){
+        addButton=buttonblocked;
+    }
 
     return (
         <>
