@@ -87,9 +87,6 @@ function App() {
     getExPlan();
   }, [loggedIn]);
 
-  /*const addExam = (exam) => {
-    setExamPlan(oldExam => [...oldExam, exam]);
-  }*/
 
   return (
     <BrowserRouter>

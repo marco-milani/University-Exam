@@ -99,11 +99,10 @@ app.get('/api/exams/:code',
     }
   });
   
-app.get("/api/studyPlan/exams", async (req, res) => {
+app.get("/api/studyPlan/exams/:id", async (req, res) => {
   let exList;
   try {
-    console.log("here")
-    exList = await dao.getExamsPlan(req.param.planId);
+    exList = await dao.getExamsPlan(req.params.id);
     return res.status(200).json(exList).end();
   } catch (err) {
     console.log(err);

@@ -1,9 +1,9 @@
-import { Col, Table, Button, Form,OverlayTrigger,Tooltip} from 'react-bootstrap';
+import { Col, Table, Button, Form,OverlayTrigger,Tooltip, Alert} from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO : get planExam, save plan-> check on max number,check on credits, ripristinare su exam table esami cancellati da my plan
+//TO DO : get planExam le funzioni funziano ma non riesco a recuperarlo!!!, save plan->[check on max number,check on credits!!!,save plan on db], ripristinare su exam table esami cancellati da my plan!!!
 let list
 function ExamList(props) {
     list = props.exams;
@@ -73,21 +73,6 @@ function ExamRow(props) { //row of my plan
                 <td style={{ textAlign: "center" }}>
                     <Button style={{ borderRadius: "32px" }} variant={"light"} onClick={() => setHidden(!hidden)}><Info /></Button>{' '}
                     {addButton}
-                    {/*<Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
-                        onClick={() => list.forEach((el) => {
-                            if (el.code === props.exam.code) {
-                                setHidden2(true);
-                                setHidden(true);
-                                props.setExamPlan(oldExams =>{
-                                    let arr=[];
-                                    arr=oldExams;
-                                    arr.filter(item=> {return item!=el})
-                                    return [arr];
-                                });
-                            }
-                        })}>
-
-                    <ArrowBarRight/></Button>*/}
                 </td>
             </tr>
             <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
@@ -105,11 +90,50 @@ function MyPlan(props) {
         let tot=0;
         tot+=ep.credits;
     }))*/
+
+    //await props.getExPlan();
     let credits=0;
     props.examPlan.forEach((ep)=>{
-        
         credits+=ep.credits;
     })
+
+    const planType=props.plan ? props.plan.type : "";
+    //console.log(planType)
+    let saveButton=<Button variant="success" active onClick={
+        ()=>{
+            if(planType=="fullTime"){
+                if(credits<60){
+                    <Alert>Not Enough Credits </Alert>
+                }
+                else{
+                    if(credits>80){
+
+                    }else{
+                        // save plan
+                    }
+
+                }
+                
+            }
+            else{
+                if(credits<20){
+                    <Alert>Not Enough Credits </Alert>
+                }
+                else{
+                    if(credits>40){
+
+                    }else{
+                        //check enrolled
+                        // save plan
+                    }
+
+                }
+
+            }
+        }
+    }>
+                Save Plan
+            </Button>
 
 
     return (
@@ -131,9 +155,8 @@ function MyPlan(props) {
                 </tbody>
             </Table>
             <br /> <br /> <br />
-            <Button variant="success" active>
-                Save Plan
-            </Button>{' '}
+            {saveButton}
+            {' '}
             <Button variant="danger" active onClick={() => { API.deletePlan(props.plan.id); props.setPlan(null); navigate("/") }}>
                 Delete Plan
             </Button>
@@ -147,8 +170,9 @@ function MyPlan(props) {
 
 function ExamRow2(props) { //row of exam table
 
-    const [hidden, setHidden] = useState(true)
-    const [hidden2, setHidden2] = useState(false);
+    const [hidden, setHidden] = useState(true);
+    let hidden2=false;
+    //const [hidden2, setHidden2] = useState(false);
     let str = props.exam.incompatible.map(i => i.code2).join(", ");
     if (str === "") {
         str = "none";
@@ -156,10 +180,21 @@ function ExamRow2(props) { //row of exam table
     if (props.exam.preparation === null) {
         props.exam.preparation = "none";
     }
+    let codes = props.examPlan.map((x)=>x.code);
+    if(codes.includes(props.exam.code)){
+        console.log(true);
+        hidden2=true;
+    }else{
+        console.log(false);
+        hidden2=false; 
+    }
+
+
+
     let buttonCheck = <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
     onClick={() => list.forEach((el) => {
         if (el.code === props.exam.code) {
-            setHidden2(true);
+            //setHidden2(true);
             setHidden(true);
             props.setExamPlan(oldExams => [...oldExams, el]);
         }
