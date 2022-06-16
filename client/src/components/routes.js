@@ -84,7 +84,11 @@ function StudyPlanRoute(props) {
                 <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} getExPlan={props.getExPlan} exams={props.exams} nEnr={props.nEnr} plan={props.plan} setPlan={props.setPlan}> </MyPlan>
               </Col>
             </Row>
+            <Row>
+              <Col style={{textAlign:"center"}}>
             <Button variant="danger" active onClick={()=>{navigate("/")}}> Back</Button>
+            </Col>
+            </Row>
           </Container>
       </>
   )

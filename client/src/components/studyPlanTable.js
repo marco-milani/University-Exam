@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO :  messaggio errore, save plan, remove exam from myPlan table,  get planExam
+//TO DO :  messaggio errore, save plan, get planExam, check on max number
 let list
 function ExamList(props) {
     list = props.exams;
@@ -33,7 +33,6 @@ function ExamList(props) {
 }
 
 function ExamRow(props) {
-    const [hidden2, setHidden2] = useState(false)
     const [hidden, setHidden] = useState(true)
     let str = props.exam.incompatible.map(i => i.code2).join(", ");
     if (str === "") {
@@ -50,13 +49,7 @@ function ExamRow(props) {
         addButton=buttonblocked;
     }
     let buttonCheck = <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
-    onClick={() => list.forEach((el) => {
-        if (el.code === props.exam.code) {
-            setHidden2(true);
-            setHidden(true);
-            props.setExamPlan(oldExams => [...oldExams, el]);
-        }
-    })}><ArrowBarRight/></Button>;
+    onClick={() =>props.setExamPlan((oldExams) => oldExams.filter(e => e.code!=props.exam.code))}> <ArrowBarRight/></Button>;
 
     let addButton = buttonCheck;
 
@@ -66,7 +59,7 @@ function ExamRow(props) {
 
     return (
         <>
-            <tr hidden={hidden2}>
+            <tr>
                 <td style={{ textAlign: "center" }}>{props.exam.code}</td>
                 <td style={{ textAlign: "center" }}>{props.exam.name}</td>
                 <td style={{ textAlign: "center" }}>{props.exam.credits}</td>
