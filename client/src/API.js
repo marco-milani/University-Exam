@@ -47,6 +47,19 @@ const getAllExam = async () => {
       return planJSON;
     } else throw planJSON;
   };
+
+  const updateExPlan=async(id,examsCode)=>{
+    const response = await fetch(`${BASE_URL}/api/plan/${id}/exams`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({examsCode})
+    })
+    if (response.ok) {
+      return null;
+    } else throw response.json();
+
+  };
   
   const deletePlan=async(id)=>{
     const response = await fetch(`${BASE_URL}/api/plan/${id}`, {
@@ -103,6 +116,7 @@ const getAllExam = async () => {
       getPlan,
       getExPlan,
       newPlan,
+      updateExPlan,
       deletePlan,
       logIn,
       getUserInfo,

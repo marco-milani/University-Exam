@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO :  save plan->[,save plan on db],toast non appare,check on max number of students if delete and re-add don't works,plan perso su ricarica pagina
+//TO DO :  save plan->[,save plan on db],toast non appare,check on max number of students if delete and re-add don't works,plan perso su ricarica pagina,examPlan mantenuto se premo back e rientro
 let list
 function ExamList(props) {
     list = props.exams;
@@ -116,19 +116,19 @@ function MyPlan(props) {
             if (!flag) {
                 if (credits < minCredits) {
 
-                    return <Toast className="d-inline-block m-1" bg="danger">
+                     <Toast className="d-inline-block m-20" bg="danger">
                         <Toast.Body className='white'>
-                            Hello, world! This is a toast message.
+                           Not enough credits
                         </Toast.Body>
                     </Toast>;
                 }
                 else {
                     if (credits > maxCredits) {
-                        <Alert>Too Many Credits </Alert>
+                        <Alert>Too many credits </Alert>
                     } else {
-
-                        //delete all exam in study plan
-                        // save plan
+                        console.log(props.plan.id);
+                        API.updateExPlan(props.plan.id, props.examPlan.map(e=>e.code));
+                        navigate("/");
                     }
 
                 }

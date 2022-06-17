@@ -184,16 +184,15 @@ app.post('/api/plan', isLoggedIn,
 
 // PUT APIs //
 
-app.put('/api/plan/exams', isLoggedIn,
-  [check("exams").exists(),
-  check("userId").exists()],
+app.put('/api/plan/:id/exams', isLoggedIn,
+  [check("examsCode").exists()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ error: ' Validation of request body failed ' }).end()
     }
     try {
-      await dao.addExamPlan(req.body.exams, req.body.userId);
+      await dao.addExamPlan(req.body.examsCode, req.params.id);
       return res.status(200).json("OK").end();
     } catch (err) {
       console.log(err);
@@ -201,7 +200,7 @@ app.put('/api/plan/exams', isLoggedIn,
     }
   });
 
-app.put('/api/plan/exams/remove', isLoggedIn,
+/*app.put('/api/plan/exams/remove', isLoggedIn,
   [check("exams").exists(),
   check("userId").exists()],
   async (req, res) => {
@@ -216,7 +215,7 @@ app.put('/api/plan/exams/remove', isLoggedIn,
       console.log(err);
       return res.status(500).json({ error: `Internal Server Error` }).end();
     }
-  });
+  });*/
 
 // DELETE APIs //
 

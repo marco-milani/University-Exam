@@ -186,31 +186,21 @@ exports.deleteExam = (id, code) => {
   })
 }
 
-exports.addExamPlan = async (exams, userId) => {
+exports.addExamPlan = async (exams,id) => {
   return new Promise(async (resolve, reject) => {
-    const sql3 = "UPDATE plan SET credits= credits + ? WHERE id=?"
-    let planId;
-    try {
-      planId = await this.getPlanByUserId(userId);
-    } catch (err) {
-      throw err;
+    try{
+      await this.deleteAllexamPlan(id); 
     }
-    let credits = 0;
+    catch(err){
+      reject(err);
+    }
     for (const i of exams) {
-
-      await this.insertExam(planId, i.code)
-      credits += i.credits;
+      console.log(i)
+      await this.insertExam(id,i)
     }
-    db.run(sql3, [credits, planId], (err) => { //aggiorno piano distudio con crediti dell'esame
-      if (err)
-        reject(err);
-      else
         resolve(this.lastID);
     });
   }
-  );
-
-}//new plan(set type)
 
 exports.NewPlan = (type, userId) => {
   return new Promise((resolve, reject) => {
