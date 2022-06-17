@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO : get planExam le funzioni funziano ma non riesco a recuperarlo!!!, save plan->[check on max number,check on credits!!!,save plan on db], ripristinare su exam table esami cancellati da my plan!!!
+//TO DO : gestione nStudents , save plan->[check on max number of students,check on credits!!!,save plan on db]
 let list
 function ExamList(props) {
     list = props.exams;
@@ -22,7 +22,7 @@ function ExamList(props) {
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
-                    {props.exams.map((e) => <ExamRow2 examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={props.nEnr.map((ne) => { if (ne.code == e.code) { return ne.n.n } })}> </ExamRow2>)}
+                    {props.exams.map((e) => <ExamRow2 examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={e.n}> </ExamRow2>)}
 
                 </tbody>
             </Table>
@@ -85,20 +85,12 @@ function ExamRow(props) { //row of my plan
 function MyPlan(props) {
     const navigate = useNavigate();
 
-    /*const [credits,setCredits]=useState(0);
-    setCredits(props.examPlan.forEach((ep)=>{
-        let tot=0;
-        tot+=ep.credits;
-    }))*/
-
-    //await props.getExPlan();
     let credits=0;
     props.examPlan.forEach((ep)=>{
         credits+=ep.credits;
     })
 
     const planType=props.plan ? props.plan.type : "";
-    //console.log(planType)
     let saveButton=<Button variant="success" active onClick={
         ()=>{
             if(planType=="fullTime"){
@@ -109,6 +101,7 @@ function MyPlan(props) {
                     if(credits>80){
 
                     }else{
+                        //delete all exam in study plan
                         // save plan
                     }
 
@@ -116,18 +109,25 @@ function MyPlan(props) {
                 
             }
             else{
-                if(credits<20){
-                    <Alert>Not Enough Credits </Alert>
-                }
-                else{
-                    if(credits>40){
-
-                    }else{
-                        //check enrolled
-                        // save plan
+                if(planType=="partTime"){
+                    if(credits<20){
+                        <Alert>Not Enough Credits </Alert>
+                    }
+                    else{
+                        if(credits>40){
+    
+                        }else{
+                            //check enrolled
+                            // save plan
+                        }
+    
                     }
 
+                }else{
+                    <Alert></Alert>
+                    // problema con planType non ancora recuperato
                 }
+                
 
             }
         }
@@ -150,7 +150,7 @@ function MyPlan(props) {
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
-                    {props.examPlan.map((e) => <ExamRow examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={props.nEnr.map((ne) => { if (ne.code == e.code) { return ne.n.n } })}> </ExamRow>)}
+                    {props.examPlan.map((e) => <ExamRow examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={e.n}> </ExamRow>)}
 
                 </tbody>
             </Table>

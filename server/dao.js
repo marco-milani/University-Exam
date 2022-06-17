@@ -22,14 +22,24 @@ exports.listAllExam = async () => {
           } catch (err) {
             throw err;
           }
-          return new Exam(
+          let n;
+          try {
+            n = await this.NstudentsEnrolled(row.code);
+            
+          } catch (err) {
+            throw err;
+          }
+          
+          let ex= new Exam(
             row.code,
             row.name,
             row.credits,
             row.max,
             row.preparation,
-            incompatible
+            incompatible,
+            n.n
           )
+            return ex;
         }))
         resolve(exams);
       }
@@ -106,7 +116,23 @@ exports.getExamsPlan = async (id) => {
       if (err) reject(err);
       else {
         for (const e of row) {
-          const ex= await this.getExamByCode(e.code);
+          let ex= await this.getExamByCode(e.code);
+          let incompatible;
+          try {
+            incompatible = await this.getIncompatible(e.code);
+            
+          } catch (err) {
+            throw err;
+          }
+          let n;
+          try {
+            n = await this.NstudentsEnrolled(e.code);
+            
+          } catch (err) {
+            throw err;
+          }
+          ex.n=n.n;
+          ex.incompatible=incompatible;
           exList.push(ex);
         }
         resolve(exList);

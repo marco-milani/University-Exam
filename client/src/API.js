@@ -6,7 +6,7 @@ const getAllExam = async () => {
     const response = await fetch(`${BASE_URL}/api/exams`);
     const examJSON = await response.json();
     if (response.ok) {
-      return examJSON.map(e => new Exam(e.code,e.name,e.credits,e.max,e.preparation,e.incompatible));
+      return examJSON.map(e => new Exam(e.code,e.name,e.credits,e.max,e.preparation,e.incompatible,e.n));
     } else throw examJSON;
   };
 
@@ -29,7 +29,7 @@ const getAllExam = async () => {
     const response = await fetch(`${BASE_URL}/api/studyPlan/exams/${planId}`, {credentials: 'include'});
     const exPlanJSON = await response.json();
     if (response.ok) {
-      return exPlanJSON;
+      return exPlanJSON.map(e => new Exam(e.code,e.name,e.credits,e.max,e.preparation,e.incompatible,e.n));;
     } else throw exPlanJSON;
   };  
 

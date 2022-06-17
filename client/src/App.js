@@ -17,7 +17,7 @@ function App() {
   const getExams = async () => {
 
     const _exams = await API.getAllExam();
-    setExams(_exams);
+    setExams(_exams);    
   }
   useEffect(() => {
 
@@ -61,9 +61,9 @@ function App() {
 
   const getPlan = async () => {
     if(loggedIn){
-        const _plan = await API.getPlan();
-        await getExPlan();
+        const _plan = await API.getPlan(); 
         setPlan(_plan);
+        await getExPlan(_plan);
     }
     else{
         setPlan(null);
@@ -73,19 +73,16 @@ function App() {
     getPlan();
   }, [loggedIn]);
 
-  const getExPlan=async()=>{
-    if(loggedIn&&plan!=null){
-      console.log(plan);
-      const explan = await API.getExPlan(plan.id);
+  const getExPlan=async(_plan)=>{
+    if(loggedIn&&_plan!=null){
+      const explan = await API.getExPlan(_plan.id);
+      console.log(explan);
       setExamPlan(explan);
   }
   else{
     setExamPlan([]);
   }
   }
-  useEffect(() => {
-    getExPlan();
-  }, [loggedIn]);
 
 
   return (

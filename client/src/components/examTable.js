@@ -21,7 +21,7 @@ function ExamTable(props) {
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
-                    {props.exams.map((e) => <ExamRow exam={e} key={e.code} n={props.nEnr.map((ne) => { if (ne.code == e.code) { return ne.n.n } })}> </ExamRow>)}
+                    {props.exams.map((e) => <ExamRow exam={e} key={e.code} n={e.n}> </ExamRow>)}
 
                 </tbody>
             </Table>
