@@ -25,7 +25,7 @@ function App() {
 
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const getCount = async () => {
 
       const enr = await API.getCountEnrolled();
@@ -33,7 +33,7 @@ function App() {
     }
     getCount();
 
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -76,7 +76,6 @@ function App() {
   const getExPlan=async(_plan)=>{
     if(loggedIn&&_plan!=null){
       const explan = await API.getExPlan(_plan.id);
-      console.log(explan);
       setExamPlan(explan);
   }
   else{
