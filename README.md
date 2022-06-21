@@ -112,20 +112,28 @@
     - code1 : code of exam that is incompatible with exam with code2
     - code2 
 
- Table `plan` 
+- Table `plan` 
   - contains: 
     - id: identify a study plan
     - type: full time or part time
-    -  
-- 
+    - userId: user associated to the study plan 
+
+
+- Table `planExam` 
+    - contains: 
+      - id: identify a study plan 
+      - code: identify an exam related to the study plan
 
 ## Main React Components
 
-- `ListOfSomething` (in `List.js`): component purpose and main functionality
-- `GreatButton` (in `GreatButton.js`): component purpose and main functionality
-- ...
-
-(only _main_ components, minor ones may be skipped)
+- `ExamTable` (in `examTable.js`): It's a table containing all information about available exams, permit by clicking on info button to show additional information.
+- `StudyPlanForm` (in `examTable.js`): It's a form available only if logged in, permit to create a new study plan if the user doesn't have one, otherwise it will appear a button to modify it.
+- `TopBar` (in `myNavBar.js`): it contains button to bring to login page if the user isn't logged in, button to log out otherwise 
+- `LoginForm` (in `AuthComponents.js`): Form to handle the log in of users
+- `MyPlan` (in `studyPlanTable.js`): Table that contains the exams choosen by the user, it shows info about exams
+- `ButtonStudyPlan` (in `studyPlanTable.js`): Button inside each row of MyPlan, if clicked remove the exam from the study plan
+- `ExamList` (in `studyPlanTable.js`): Table containing all information about available exams
+- `ButtonExam` (in `studyPlanTable.js`): Button inside each row of ExamList, if clicked add the exam to the study plan
 
 ## Screenshot
 
@@ -133,5 +141,8 @@
 
 ## Users Credentials
 
-- username, password (plus any other requested info)
-- username, password (plus any other requested info)
+- username: s301377@polito.it, password : password
+- username: s301378@polito.it, password : password
+- username: s301379@polito.it, password : password
+- username: s301376@polito.it, password : password
+- username: s301375@polito.it, password : password

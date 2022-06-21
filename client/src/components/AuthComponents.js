@@ -59,4 +59,4 @@ function LoginForm(props) {
 }
 
 
-export { LoginForm, };
+export { LoginForm };
