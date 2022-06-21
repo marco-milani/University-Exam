@@ -84,7 +84,7 @@ app.get('/api/exams', async (req, res) => {
 
 
 // Get exam element given its code //
-app.get('/api/exams/:code',
+/*app.get('/api/exams/:code',
   async (req, res) => {
     const code = req.params.code;
     try {
@@ -97,7 +97,7 @@ app.get('/api/exams/:code',
       console.log(err);
       return res.status(500).json({ error: `Internal Server Error` }).end();
     }
-  });
+  });*/
 
 app.get("/api/studyPlan/:id/exams", async (req, res) => {
   let exList;

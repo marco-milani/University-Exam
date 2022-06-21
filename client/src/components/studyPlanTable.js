@@ -3,8 +3,7 @@ import { useState } from "react";
 import { ArrowBarLeft, ArrowBarRight, Info, LockFill } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO capire cosa fare dopo save?-> getPlan?
-// controlli lato server, getExams dopo aver salvato/cancellato studyplan per aggiornare iscritti
+//TO DO controlli lato server, problema max number of iscritti
 
 
 function MyPlan(props) {
@@ -47,8 +46,10 @@ function MyPlan(props) {
                     if (credits > maxCredits) {
                         props.setMessage({ msg: "Too many credits!", type: 'danger' });
                     } else {
-                        console.log(props.plan.id);
-                        API.updateExPlan(props.plan.id, props.examPlan.map(e => e.code)).then(() => navigate("/"));
+                        API.updateExPlan(props.plan.id, props.examPlan.map(e => e.code))
+                        .then(() =>{ 
+                            props.getPlan().then(() => navigate("/"));
+                        } );
                     }
 
                 }
@@ -77,14 +78,14 @@ function MyPlan(props) {
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
-                    {props.examPlan.map((e) => <ExamRow examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={e.n}> </ExamRow>)}
+                    {props.examPlan.map((e) => <ExamRow exams={props.exams} examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={e.n}> </ExamRow>)}
 
                 </tbody>
             </Table>
             <br /> <br /> <br />
             {saveButton}
             {' '}
-            <Button variant="danger" active onClick={() => { API.deletePlan(props.plan.id); props.setPlan(null); navigate("/") }}>
+            <Button variant="danger" active onClick={() => { API.deletePlan(props.plan.id).then(()=>{props.getPlan().then(()=>navigate("/"))})}}>
                 Delete Plan
             </Button>
             <br /><br />
@@ -119,7 +120,7 @@ function ExamRow(props) { //row of my plan
                 <td style={{ textAlign: "center" }}>{props.exam.max}</td>
                 <td style={{ textAlign: "center" }}>
                     <Button style={{ borderRadius: "32px" }} variant={"light"} onClick={() => setHidden(!hidden)}><Info /></Button>{' '}
-                    <ButtonStudyPlan exam={props.exam} examPlan={props.examPlan} setExamPlan={props.setExamPlan} > </ButtonStudyPlan>
+                    <ButtonStudyPlan exam={props.exam} examPlan={props.examPlan} setExamPlan={props.setExamPlan} exams={props.exams} > </ButtonStudyPlan>
                 </td>
             </tr>
             <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
@@ -129,7 +130,12 @@ function ExamRow(props) { //row of my plan
 }
 function ButtonStudyPlan(props) {
     let buttonCheck = <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
-        onClick={() => props.setExamPlan((oldExams) => oldExams.filter(e => e.code !== props.exam.code))}> <ArrowBarLeft /> </Button>;
+        onClick={() => {if(props.exam.max===props.exam.n){
+            props.exams.map((e)=>{if(e.code===props.exam.code){
+                e.special="Buffon";
+            }})
+        }
+            props.setExamPlan((oldExams) => oldExams.filter(e => e.code !== props.exam.code))}}> <ArrowBarLeft /> </Button>;
 
     let addButton = buttonCheck;
     let buttonblocked = <OverlayTrigger overlay={<Tooltip id={props.exam.code}>Can't remove this course because it's obbligatory for a course you choose</Tooltip>}>
@@ -247,6 +253,10 @@ function ButtonExam(props) {
                 flag = 1;
             }
         }
+    }
+    if(props.exam.max===props.exam.n&&props.exam.special!=="Buffon"){
+        flag=1;
+        stri = "Can't add this course because this course has reached the max amount of students enrolled"
     }
     let buttonblocked = <OverlayTrigger overlay={<Tooltip id={props.exam.code}>{stri}</Tooltip>}>
         <span className="d-inline-block">

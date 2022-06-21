@@ -30,7 +30,7 @@ const getAllExam = async () => {
     const exPlanJSON = await response.json();
     if (response.ok) {
       return exPlanJSON.map(e => new Exam(e.code,e.name,e.credits,e.max,e.preparation,e.incompatible,e.n));;
-    } else throw exPlanJSON;
+    } else return [];
   };  
 
   const newPlan = async (plan) => {
@@ -112,7 +112,6 @@ const getAllExam = async () => {
   }
   const API={
       getAllExam,
-      //getCountEnrolled,
       getPlan,
       getExPlan,
       newPlan,

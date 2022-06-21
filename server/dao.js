@@ -110,7 +110,6 @@ exports.NstudentsEnrolled = (code) => {
 exports.getExamsPlan = async (id) => {
   return new Promise(async (resolve, reject) => {
     const sql = "SELECT code FROM planExam WHERE id=?";
-    console.log(id);
     let exList = [];
     db.all(sql, [id], async (err, row) => {
       if (err) reject(err);

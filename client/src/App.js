@@ -13,6 +13,7 @@ function App() {
   const [plan, setPlan] = useState(null);
   const [examPlan, setExamPlan] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const getExams = async () => {
 
     const _exams = await API.getAllExam();
@@ -41,7 +42,7 @@ function App() {
     setExamPlan([]);
   };
 
-  const getPlan = async () => {
+  async function getPlan() {
     setLoading(true);
     await getExams();
     if (loggedIn) {
@@ -56,6 +57,7 @@ function App() {
   }
   useEffect(() => {
     getPlan();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
   const getExPlan = async (_plan) => {

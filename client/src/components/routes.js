@@ -81,7 +81,7 @@ function StudyPlanRoute(props) {
             <ExamList exams={props.exams} plan={props.plan} getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan}></ExamList>
           </Col>
           <Col style={{ textAlign: "center" }}>
-            <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} getExPlan={props.getExPlan} exams={props.exams} plan={props.plan} setPlan={props.setPlan} setMessage={props.setMessage}> </MyPlan>
+            <MyPlan getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan} getExPlan={props.getExPlan} exams={props.exams} plan={props.plan} setPlan={props.setPlan} setMessage={props.setMessage}> </MyPlan>
           </Col>
         </Row>
         <Row>
