@@ -202,8 +202,8 @@ exports.addExamPlan = async (exams, id) => {
 
 exports.NewPlan = (type, userId) => {
   return new Promise((resolve, reject) => {
-    const sql = "INSERT INTO plan(type,credits,userId) VALUES(?,?,?)";
-    db.run(sql, [type, 0, userId], (err) => {
+    const sql = "INSERT INTO plan(type,userId) VALUES(?,?)";
+    db.run(sql, [type, userId], (err) => {
       if (err)
         reject(err);
       else

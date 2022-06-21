@@ -67,7 +67,6 @@ function StudyPlanForm(props) {
 
         const sp = {
             type: type,
-            credits: 0,
             userId: props.user.id
         }
         await API.newPlan(sp);

@@ -91,9 +91,13 @@
 ## Database Tables
 
 - Table `users` 
-    - contains xx 
-    - yy 
-    - zz
+    - contains:  
+      - id: identify a user 
+      - email: email of user used to log in
+      - name : name of user
+      - surname: surname of user
+      - salt
+      - hash: crypted password
 
 - Table `exam` 
   - contains: 
@@ -103,7 +107,17 @@
     -  max: max number of students that can be enrolled
     -  preparation : preparatory courses needed
   
-- ...
+- Table `incompatible` 
+  - contains: 
+    - code1 : code of exam that is incompatible with exam with code2
+    - code2 
+
+ Table `plan` 
+  - contains: 
+    - id: identify a study plan
+    - type: full time or part time
+    -  
+- 
 
 ## Main React Components
 
