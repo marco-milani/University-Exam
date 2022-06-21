@@ -78,10 +78,10 @@ function StudyPlanRoute(props) {
             </Row>
             <Row>
               <Col>
-              <ExamList exams={props.exams} nEnr={props.nEnr} plan={props.plan} getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan}></ExamList>
+              <ExamList exams={props.exams} plan={props.plan} getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan}></ExamList>
               </Col>
               <Col style={{textAlign:"center"}}>
-                <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} getExPlan={props.getExPlan} exams={props.exams} nEnr={props.nEnr} plan={props.plan} setPlan={props.setPlan}> </MyPlan>
+                <MyPlan examPlan={props.examPlan} setExamPlan={props.setExamPlan} getExPlan={props.getExPlan} exams={props.exams}  plan={props.plan} setPlan={props.setPlan} setMessage={props.setMessage}> </MyPlan>
               </Col>
             </Row>
             <Row>

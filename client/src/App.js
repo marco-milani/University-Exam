@@ -7,7 +7,7 @@ import { DefaultRoute, ExamListRoute, LoginFormRoute,StudyPlanRoute } from "./co
 import { Alert, Container, Row } from "react-bootstrap";
 function App() {
   const [exams, setExams] = useState([]);
-  const [enrolled, setCount] = useState([]);
+  //const [enrolled, setCount] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
   const [user, setUser] = useState(null);
@@ -88,13 +88,13 @@ function App() {
     <BrowserRouter>
       <TopBar bg='#557B83' loggedIn={loggedIn} logout={handleLogout}/>
       {message && <Row>
-        <Alert variant={message.type}  onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
+        <Alert variant={message.type} style={{textAlign: "center"}} expand="lg" sticky="top" onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
       </Row>}
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
-        <Route path='/' element={<ExamListRoute exams={exams} nEnr={enrolled} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan}/>} />
+        <Route path='/' element={<ExamListRoute exams={exams} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan}/>} />
         <Route path="/login" element={loggedIn ?  <Navigate replace to='/studyPlan'/> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser} getPlan={getPlan}></LoginFormRoute>}/>
-        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams} nEnr={enrolled} user={user} plan={plan} setPlan={setPlan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan} getExPlan={getExPlan}></StudyPlanRoute> : 
+        <Route path="/studyplan" element={loggedIn ?<StudyPlanRoute exams={exams}  user={user} plan={plan} setPlan={setPlan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan} getExPlan={getExPlan} setMessage={setMessage}></StudyPlanRoute> : 
         <Navigate replace to='/login' />} />
       </Routes>
     </BrowserRouter>

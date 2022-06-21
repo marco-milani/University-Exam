@@ -99,7 +99,7 @@ app.get('/api/exams/:code',
     }
   });
   
-app.get("/api/studyPlan/exams/:id", async (req, res) => {
+app.get("/api/studyPlan/:id/exams", async (req, res) => {
   let exList;
   try {
     exList = await dao.getExamsPlan(req.params.id);
@@ -112,7 +112,7 @@ app.get("/api/studyPlan/exams/:id", async (req, res) => {
 
 })
 
-app.get('/api/students/exams',
+/*app.get('/api/students/exams',
   async (req, res) => {
     let exams;
     try {
@@ -137,7 +137,7 @@ app.get('/api/students/exams',
       enrolled.push(val);
     }
     return res.status(200).json(enrolled).end();
-  });
+  });*/
 
 app.get('/api/plan',isLoggedIn,
   async (req, res) => {

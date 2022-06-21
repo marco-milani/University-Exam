@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import { ArrowBarRight, Info, Stop } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO :  save plan->[,save plan on db],toast non appare,check on max number of students if delete and re-add don't works,plan perso su ricarica pagina,examPlan mantenuto se premo back e rientro
-let list
+//TO DO : toast non appare,check on max number of students if delete and re-add don't works,plan perso su ricarica pagina,examPlan mantenuto se premo back e rientro,capire cosa fare dopo save?-> getPlan?
+// controlli lato server, modifica icona bottoni, bottoni login, getExams dopo aver salvato/cancellato studyplan per aggiornare iscritti
 function ExamList(props) {
-    list = props.exams;
 
     return (
         <div className="align px-5" >
@@ -22,7 +21,7 @@ function ExamList(props) {
                     </tr>
                 </thead>
                 <tbody style={{ backgroundColor: "#e6fae9" }}>
-                    {props.exams.map((e) => <ExamRow2 examPlan={props.examPlan} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={e.n}> </ExamRow2>)}
+                    {props.exams.map((e) => <ExamRow2 examPlan={props.examPlan} list={props.exams} setExamPlan={props.setExamPlan} exam={e} key={e.code} n={e.n}> </ExamRow2>)}
 
                 </tbody>
             </Table>
@@ -84,14 +83,14 @@ function ExamRow(props) { //row of my plan
 
 function MyPlan(props) {
     const navigate = useNavigate();
-
+    let message_error;
     let credits = 0;
     props.examPlan.forEach((ep) => {
         credits += ep.credits;
     })
     let minCredits = 0;
     let maxCredits = 0;
-    if (props.plan.type == "PartTime") {
+    if (props.plan.type == "partTime") {
         minCredits = 20;
         maxCredits = 40;
     }
@@ -101,7 +100,7 @@ function MyPlan(props) {
     }
 
     const planType = props.plan ? props.plan.type : "";
-    let saveButton = <Button variant="success" active onClick={
+    let saveButton = <Button style={{outline:"none", boxShadow:"none"}} variant="success" active onClick={
         () => {
             let flag = false;
             props.examPlan.forEach((ex) => {
@@ -112,34 +111,24 @@ function MyPlan(props) {
                 }
 
             })
-            console.log(flag);
             if (!flag) {
                 if (credits < minCredits) {
-
-                     <Toast className="d-inline-block m-20" bg="danger">
-                        <Toast.Body className='white'>
-                           Not enough credits
-                        </Toast.Body>
-                    </Toast>;
+                    props.setMessage({ msg: "Not enough credits!", type: 'danger' });
+                    
                 }
                 else {
                     if (credits > maxCredits) {
-                        <Alert>Too many credits </Alert>
+                        props.setMessage({ msg: "Too many credits!", type: 'danger'});
                     } else {
                         console.log(props.plan.id);
-                        API.updateExPlan(props.plan.id, props.examPlan.map(e=>e.code));
-                        navigate("/");
+                        API.updateExPlan(props.plan.id, props.examPlan.map(e=>e.code)).then(()=> navigate("/"));
                     }
 
                 }
             } else {
-                <Alert></Alert>
-                // problema con planType non ancora recuperato
+                props.setMessage({ msg: "This course alredy reached the max number of students enrolled", type: 'danger'});
+                
             }
-
-
-
-
 
         }
     }>
@@ -204,7 +193,7 @@ function ExamRow2(props) { //row of exam table
 
 
     let buttonCheck = <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
-        onClick={() => list.forEach((el) => {
+        onClick={() => props.list.forEach((el) => {
             if (el.code === props.exam.code) {
                 //setHidden2(true);
                 setHidden(true);
@@ -237,7 +226,7 @@ function ExamRow2(props) { //row of exam table
     let buttonblocked = <OverlayTrigger overlay={<Tooltip id={props.exam.code}>{stri}</Tooltip>}>
         <span className="d-inline-block">
             <Button disabled style={{ borderRadius: "32px", pointerEvents: 'none' }} variant={"danger"} className="mt-2"
-                onClick={() => list.map((el) => {
+                onClick={() => props.list.map((el) => {
                     if (el.code === props.exam.code) {
                         setHidden(true);
                     }

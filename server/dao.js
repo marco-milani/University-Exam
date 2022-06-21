@@ -195,7 +195,6 @@ exports.addExamPlan = async (exams,id) => {
       reject(err);
     }
     for (const i of exams) {
-      console.log(i)
       await this.insertExam(id,i)
     }
         resolve(this.lastID);

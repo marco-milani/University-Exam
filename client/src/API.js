@@ -10,13 +10,13 @@ const getAllExam = async () => {
     } else throw examJSON;
   };
 
-  const getCountEnrolled = async () => {
+  /*const getCountEnrolled = async () => {
     const response = await fetch(`${BASE_URL}/api/students/exams`);
     const enrolledJSON = await response.json();
     if (response.ok) {
       return enrolledJSON;
     } else throw enrolledJSON;
-  };
+  };*/
 
   const getPlan = async () => {
     const response = await fetch(`${BASE_URL}/api/plan`, {credentials: 'include'});
@@ -26,7 +26,7 @@ const getAllExam = async () => {
     } else return null;
   };
   const getExPlan = async (planId) => {
-    const response = await fetch(`${BASE_URL}/api/studyPlan/exams/${planId}`, {credentials: 'include'});
+    const response = await fetch(`${BASE_URL}/api/studyPlan/${planId}/exams`, {credentials: 'include'});
     const exPlanJSON = await response.json();
     if (response.ok) {
       return exPlanJSON.map(e => new Exam(e.code,e.name,e.credits,e.max,e.preparation,e.incompatible,e.n));;
@@ -112,7 +112,7 @@ const getAllExam = async () => {
   }
   const API={
       getAllExam,
-      getCountEnrolled,
+      //getCountEnrolled,
       getPlan,
       getExPlan,
       newPlan,
