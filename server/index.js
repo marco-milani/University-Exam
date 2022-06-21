@@ -38,7 +38,7 @@ passport.use(new LocalStrategy(async function verify(username, password, cb) {
 }));
 
 passport.serializeUser((user, cb) => {
-  cb(null, {id:user.id});
+  cb(null, { id: user.id });
 });
 
 
@@ -98,7 +98,7 @@ app.get('/api/exams/:code',
       return res.status(500).json({ error: `Internal Server Error` }).end();
     }
   });
-  
+
 app.get("/api/studyPlan/:id/exams", async (req, res) => {
   let exList;
   try {
@@ -139,7 +139,7 @@ app.get("/api/studyPlan/:id/exams", async (req, res) => {
     return res.status(200).json(enrolled).end();
   });*/
 
-app.get('/api/plan',isLoggedIn,
+app.get('/api/plan', isLoggedIn,
   async (req, res) => {
     let plan;
     try {

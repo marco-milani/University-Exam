@@ -25,12 +25,12 @@ exports.listAllExam = async () => {
           let n;
           try {
             n = await this.NstudentsEnrolled(row.code);
-            
+
           } catch (err) {
             throw err;
           }
-          
-          let ex= new Exam(
+
+          let ex = new Exam(
             row.code,
             row.name,
             row.credits,
@@ -39,7 +39,7 @@ exports.listAllExam = async () => {
             incompatible,
             n.n
           )
-            return ex;
+          return ex;
         }))
         resolve(exams);
       }
@@ -116,30 +116,30 @@ exports.getExamsPlan = async (id) => {
       if (err) reject(err);
       else {
         for (const e of row) {
-          let ex= await this.getExamByCode(e.code);
+          let ex = await this.getExamByCode(e.code);
           let incompatible;
           try {
             incompatible = await this.getIncompatible(e.code);
-            
+
           } catch (err) {
             throw err;
           }
           let n;
           try {
             n = await this.NstudentsEnrolled(e.code);
-            
+
           } catch (err) {
             throw err;
           }
-          ex.n=n.n;
-          ex.incompatible=incompatible;
+          ex.n = n.n;
+          ex.incompatible = incompatible;
           exList.push(ex);
         }
         resolve(exList);
       }
     })
-    
-    
+
+
   })
 };
 
@@ -186,20 +186,20 @@ exports.deleteExam = (id, code) => {
   })
 }
 
-exports.addExamPlan = async (exams,id) => {
+exports.addExamPlan = async (exams, id) => {
   return new Promise(async (resolve, reject) => {
-    try{
-      await this.deleteAllexamPlan(id); 
+    try {
+      await this.deleteAllexamPlan(id);
     }
-    catch(err){
+    catch (err) {
       reject(err);
     }
     for (const i of exams) {
-      await this.insertExam(id,i)
+      await this.insertExam(id, i)
     }
-        resolve(this.lastID);
-    });
-  }
+    resolve(this.lastID);
+  });
+}
 
 exports.NewPlan = (type, userId) => {
   return new Promise((resolve, reject) => {
@@ -241,25 +241,25 @@ exports.deleteExamPlan = async (exams, userId) => {
   );
 }
 exports.deletePlan = (id) => {
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const sql = "DELETE FROM plan WHERE id=?";
     db.run(sql, [id], async (err) => {// elimino plan 
-      if (err){
+      if (err) {
         reject(err);
         console.err(err);
       }
-     await this.deleteAllexamPlan(id); 
-     resolve(this.lastID);
+      await this.deleteAllexamPlan(id);
+      resolve(this.lastID);
     });
-    
-})
+
+  })
 }
 
-exports.deleteAllexamPlan=(id)=>{
+exports.deleteAllexamPlan = (id) => {
   return new Promise((resolve, reject) => {
     const sql = "DELETE FROM planExam WHERE id=?";
     db.run(sql, [id], (err) => {// elimino plan 
-      if (err){
+      if (err) {
         reject(err);
         console.err(err);
       }

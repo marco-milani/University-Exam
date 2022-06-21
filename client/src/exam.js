@@ -1,4 +1,3 @@
-"use strict";
 
 /**
  * Constructor function for new Exam objects
@@ -10,15 +9,15 @@
  * @param {Array} incompatible 
  * @param {integer} n 
  */
-function Exam(code, name, credits, max, preparation, incompatible,n) {
+function Exam(code, name, credits, max, preparation, incompatible, n) {
   this.code = code;
   this.name = name;
   this.credits = credits;
   this.max = max;
   this.preparation = preparation;
   this.incompatible = incompatible;
-  this.n=n;
+  this.n = n;
 }
 
 exports.Exam = Exam;
-exports.modules = {Exam};
+exports.modules = { Exam };

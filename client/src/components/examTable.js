@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Col, Table, Button, Form } from 'react-bootstrap';
-import { Border, Info } from 'react-bootstrap-icons';
+import { Table, Button, Form } from 'react-bootstrap';
+import { Info } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import API from "../API.js";
 
@@ -59,45 +59,45 @@ function ExamRow(props) {
 
 
 function StudyPlanForm(props) {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [hidden, setHidden] = useState(false)
-    const [type,setType]=useState("FullTime");
-    const handleSubmit =async (event) => {
+    const [type, setType] = useState("FullTime");
+    const handleSubmit = async (event) => {
         event.preventDefault();
-       
-        const sp={
-            type:type,
-            credits:0,
-            userId:props.user.id 
+
+        const sp = {
+            type: type,
+            credits: 0,
+            userId: props.user.id
         }
         await API.newPlan(sp);
         await props.getPlan();
         navigate("/studyPlan");
     }
     let Bonucci;
-    if(props.plan!==null){
-        Bonucci=<Button variant="success" hidden={hidden} onClick={() => navigate("/studyPlan")}> Modify Study Plan </Button>
+    if (props.plan !== null) {
+        Bonucci = <Button variant="success" hidden={hidden} onClick={() => navigate("/studyPlan")}> Modify Study Plan </Button>
     }
-    else{
-        
-        Bonucci=<>
-        <Button variant="success" hidden={hidden} onClick={() => setHidden(!hidden)}> New Study Plan </Button>
-        <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}> 
-        <Form.Label>Select type of study plan</Form.Label>
-            <Form.Select aria-label="studyplan choose Chiellini top player"  onChange={event => setType(event.target.value)}> 
-                <option defaultValue={true} value="fullTime">Full time</option>
-                <option value="partTime">Part time</option>
-            </Form.Select>
-            <br/>
-            <Button className='col-2' variant="success" type="submit" style={{ fontSize: fontSize }}>Save</Button>
-      &nbsp;
-        <Button className='col-2' variant="danger" style={{ fontSize: fontSize }} onClick={() => setHidden(!hidden)}>Cancel</Button>
-        </Form>
+    else {
+
+        Bonucci = <>
+            <Button variant="success" hidden={hidden} onClick={() => setHidden(!hidden)}> New Study Plan </Button>
+            <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}>
+                <Form.Label>Select type of study plan</Form.Label>
+                <Form.Select aria-label="studyplan choose Chiellini top player" onChange={event => setType(event.target.value)}>
+                    <option defaultValue={true} value="fullTime">Full time</option>
+                    <option value="partTime">Part time</option>
+                </Form.Select>
+                <br />
+                <Button className='col-2' variant="success" type="submit" style={{ fontSize: fontSize }}>Save</Button>
+                &nbsp;
+                <Button className='col-2' variant="danger" style={{ fontSize: fontSize }} onClick={() => setHidden(!hidden)}>Cancel</Button>
+            </Form>
         </>
     }
     return (
         <>
-        {Bonucci}
+            {Bonucci}
         </>
     )
 

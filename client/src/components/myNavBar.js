@@ -1,9 +1,9 @@
-import { Button, Container, Form, FormControl, Nav, Navbar, NavLink, NavItem } from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavItem } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.min.css"
-import { Link,Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 function TopBar(props) {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     return (
         <Navbar style={{ backgroundColor: props.bg }} expand="lg" sticky="top">
             <Container >
@@ -13,12 +13,12 @@ function TopBar(props) {
                 <Nav>
                     <NavItem className="">
                         {props.loggedIn ?
-                        <Button variant="light" active onClick={()=>{props.logout(); navigate("./")} }>
-                            logout
-                        </Button> :
-                         <Button variant="light" active onClick={()=>navigate('/login')}>
-                         login
-                     </Button>}
+                            <Button variant="light" active onClick={() => { props.logout(); navigate("./") }}>
+                                logout
+                            </Button> :
+                            <Button variant="light" active onClick={() => navigate('/login')}>
+                                login
+                            </Button>}
                     </NavItem>
                 </Nav>
             </Container>
