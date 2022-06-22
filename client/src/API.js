@@ -30,7 +30,7 @@ const getAllExam = async () => {
     const exPlanJSON = await response.json();
     if (response.ok) {
       return exPlanJSON.map(e => new Exam(e.code,e.name,e.credits,e.max,e.preparation,e.incompatible,e.n));;
-    } else return [];
+    } else throw exPlanJSON;
   };  
 
   const newPlan = async (plan) => {

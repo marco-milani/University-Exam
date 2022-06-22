@@ -46,10 +46,13 @@ function MyPlan(props) {
                     if (credits > maxCredits) {
                         props.setMessage({ msg: "Too many credits!", type: 'danger' });
                     } else {
-                        API.updateExPlan(props.plan.id, props.examPlan.map(e => e.code))
+                        API.updateExPlan(props.plan.id, props.examPlan)
                         .then(() =>{ 
+                            props.setMessage({ msg: "Plan successfully saved", type: 'success' });
                             props.getPlan().then(() => navigate("/"));
-                        } );
+                        } ).catch(()=>{
+                            props.setMessage({ msg: "Server validation failed!", type: 'danger' });
+                        });
                     }
 
                 }
@@ -133,6 +136,7 @@ function ButtonStudyPlan(props) {
         onClick={() => {if(props.exam.max===props.exam.n){
             props.exams.map((e)=>{if(e.code===props.exam.code){
                 e.special="Buffon";
+                return e;
             }})
         }
             props.setExamPlan((oldExams) => oldExams.filter(e => e.code !== props.exam.code))}}> <ArrowBarLeft /> </Button>;

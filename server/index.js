@@ -196,6 +196,9 @@ app.put('/api/plan/:id/exams', isLoggedIn,
       return res.status(200).json("OK").end();
     } catch (err) {
       console.log(err);
+      if (err===422){
+        return res.status(422).json({ error: `Validation error` }).end();
+      }
       return res.status(500).json({ error: `Internal Server Error` }).end();
     }
   });

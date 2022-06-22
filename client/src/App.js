@@ -22,7 +22,12 @@ function App() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const user = await API.getUserInfo();
+      try{
+         const user = await API.getUserInfo();
+      }catch(err){
+
+      }
+     
       setLoggedIn(true);
       setUser(user);
     };
@@ -34,7 +39,12 @@ function App() {
 
 
   const handleLogout = async () => {
-    await API.logOut();
+    try{
+       await API.logOut();
+    }catch(err){
+
+    }
+   
     setLoggedIn(false);
     setUser(null);
     setMessage('');
@@ -44,11 +54,23 @@ function App() {
 
   async function getPlan() {
     setLoading(true);
-    await getExams();
+    try{
+      await getExams();
+    }
+    catch(err){
+
+    }
+    
     if (loggedIn) {
+      try{
       const _plan = await API.getPlan();
-      setPlan(_plan);
-      await getExPlan(_plan);
+            setPlan(_plan);
+            await getExPlan(_plan);
+      }
+      catch(err){
+        
+      }
+      
     }
     else {
       setPlan(null);
@@ -62,7 +84,14 @@ function App() {
 
   const getExPlan = async (_plan) => {
     if (loggedIn && _plan != null) {
-      const explan = await API.getExPlan(_plan.id);
+      let explan
+      try{
+        explan = await API.getExPlan(_plan.id);
+      }
+      catch(err){
+        
+      }
+      
       setExamPlan(explan);
     }
     else {

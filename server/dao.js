@@ -121,14 +121,14 @@ exports.getExamsPlan = async (id) => {
             incompatible = await this.getIncompatible(e.code);
 
           } catch (err) {
-            throw err;
+            reject(err);
           }
           let n;
           try {
             n = await this.NstudentsEnrolled(e.code);
 
           } catch (err) {
-            throw err;
+            reject(err);
           }
           ex.n = n.n;
           ex.incompatible = incompatible;
@@ -162,7 +162,7 @@ exports.getPlanByUserId = async (Id) => {
 exports.insertExam = (id, code) => {
   return new Promise((resolve, reject) => {
     const sql = "INSERT INTO planExam(id,code) VALUES (?, ?)";
-    db.run(sql, [id, code], (err) => {// inserisco esame dentro piano di studio
+    db.run(sql, [id, code], (err) => {
       if (err)
         reject(err);
       else
@@ -175,7 +175,7 @@ exports.insertExam = (id, code) => {
 exports.deleteExam = (id, code) => {
   return new Promise((resolve, reject) => {
     const sql = "DELETE FROM planExam WHERE code=? and id=?";
-    db.run(sql, [code, id], (err) => {// inserisco esame dentro piano di studio
+    db.run(sql, [code, id], (err) => {
       if (err)
         reject(err);
       else
@@ -186,22 +186,47 @@ exports.deleteExam = (id, code) => {
 }
 
 exports.addExamPlan = async (exams, id) => {
-  return new Promise(async (resolve, reject) => {
+    let exCopy=exams.map((x)=>x.code);
     try {
+      exams.forEach(element => {
+        if(element.preparation !=="none" && !exCopy.includes(element.preparation)){
+          console.log("here2")
+          throw 422;
+         
+        }
+        for (const i of element.incompatible) {
+          if (exCopy.includes(i.code2)) {
+            console.log("here")
+            throw 422;
+          }
+        }
+      });
       await this.deleteAllexamPlan(id);
     }
     catch (err) {
-      reject(err);
+      throw err;
     }
+    console.log(exams);
     for (const i of exams) {
-      await this.insertExam(id, i)
+      try{
+        await this.insertExam(id, i.code)
+      }catch(err){
+        throw  err;
+      }
+      
     }
-    resolve(this.lastID);
-  });
 }
 
-exports.NewPlan = (type, userId) => {
-  return new Promise((resolve, reject) => {
+exports.NewPlan = async (type, userId) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      const planId = await this.getPlanByUserId(userId);//check for 
+      if(planId){
+        throw 422; 
+      }
+    }catch(err){
+     throw err;
+      }
     const sql = "INSERT INTO plan(type,userId) VALUES(?,?)";
     db.run(sql, [type, userId], (err) => {
       if (err)
@@ -215,7 +240,7 @@ exports.NewPlan = (type, userId) => {
 
 //delete exam from plan
 
-exports.deleteExamPlan = async (exams, userId) => {
+/*exports.deleteExamPlan = async (exams, userId) => {
   return new Promise(async (resolve, reject) => {
     const sql2 = "SELECT id,credits from plan WHERE userId=?";
     const sql3 = "UPDATE plan SET credits= credits - ? WHERE id=?"
@@ -238,14 +263,15 @@ exports.deleteExamPlan = async (exams, userId) => {
     });
   }
   );
-}
+}*/
+
 exports.deletePlan = (id) => {
   return new Promise(async (resolve, reject) => {
     const sql = "DELETE FROM plan WHERE id=?";
     db.run(sql, [id], async (err) => {// elimino plan 
       if (err) {
         reject(err);
-        console.err(err);
+        console.error(err);
       }
       await this.deleteAllexamPlan(id);
       resolve(this.lastID);
@@ -260,7 +286,7 @@ exports.deleteAllexamPlan = (id) => {
     db.run(sql, [id], (err) => {// elimino plan 
       if (err) {
         reject(err);
-        console.err(err);
+        console.error(err);
       }
       else
         resolve(this.lastID);
