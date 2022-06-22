@@ -7,8 +7,8 @@ import { DefaultRoute, ExamListRoute, LoginFormRoute, StudyPlanRoute } from "./c
 import { Alert, Row, Spinner } from "react-bootstrap";
 function App() {
   const [exams, setExams] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [message, setMessage] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false); //used to handle log in
+  const [message, setMessage] = useState('');// used by alert
   const [user, setUser] = useState(null);
   const [plan, setPlan] = useState(null);
   const [examPlan, setExamPlan] = useState([]);
@@ -43,7 +43,7 @@ function App() {
     try{
        await API.logOut();
     }catch(err){
-
+      console.log(err);
     }
    
     setLoggedIn(false);
@@ -67,7 +67,7 @@ function App() {
       setPlan(null);
     }
   }catch(err){
-      
+    console.log(err);
     }
     setLoading(false);
   }
@@ -104,7 +104,7 @@ function App() {
       </Row>}
       <Routes>
         <Route path='*' element={<DefaultRoute />} />
-        <Route path='/' element={<ExamListRoute exams={exams} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan} />} />
+        <Route path='/' element={<ExamListRoute setMessage={setMessage} exams={exams} loggedIn={loggedIn} user={user} plan={plan} getPlan={getPlan} />} />
         <Route path="/login" element={loggedIn ? <Navigate replace to='/studyPlan' /> : <LoginFormRoute setMessage={setMessage} setLoggedIn={setLoggedIn} setUser={setUser} getPlan={getPlan}></LoginFormRoute>} />
         <Route path="/studyplan" element={loggedIn ? <StudyPlanRoute exams={exams} user={user} plan={plan} setPlan={setPlan} getPlan={getPlan} examPlan={examPlan} setExamPlan={setExamPlan} getExPlan={getExPlan} setMessage={setMessage}></StudyPlanRoute> :
           <Navigate replace to='/login' />} />

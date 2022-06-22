@@ -10,11 +10,11 @@ function LoginForm(props) {
   const navigate = useNavigate();
 
 
-  const handleLogin = async (credentials) => {
+  const handleLogin = async (credentials) => {// on log in set plan, user and exam plan states 
     try {
       const user = await API.logIn(credentials);
       props.setLoggedIn(true);
-      props.setMessage({ msg: `Welcome, ${user.name} ${user.surname} !`, type: 'success' });
+      props.setMessage({ msg: `Welcome, ${user.name} ${user.surname} !`, type: 'success' }); 
       props.setUser(user);
       navigate("/");
     } catch (err) {

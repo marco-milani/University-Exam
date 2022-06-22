@@ -216,7 +216,7 @@ exports.addExamPlan = async (exams, id) => {
 exports.NewPlan = async (type, userId) => {
   return new Promise(async (resolve, reject) => {
     try{
-      const planId = await this.getPlanByUserId(userId);//check for 
+      const planId = await this.getPlanByUserId(userId);//check for  
       if(planId){
         throw 422; 
       }
@@ -237,7 +237,7 @@ exports.NewPlan = async (type, userId) => {
 exports.deletePlan = (id) => {
   return new Promise(async (resolve, reject) => {
     const sql = "DELETE FROM plan WHERE id=?";
-    db.run(sql, [id], async (err) => {// elimino plan 
+    db.run(sql, [id], async (err) => { 
       if (err) {
         reject(err);
       }
@@ -248,10 +248,10 @@ exports.deletePlan = (id) => {
   })
 }
 
-exports.deleteAllexamPlan = (id) => {
+exports.deleteAllexamPlan = (id) => {//called by delete plan, used to remove all exams from planExam table
   return new Promise((resolve, reject) => {
     const sql = "DELETE FROM planExam WHERE id=?";
-    db.run(sql, [id], (err) => {// elimino plan 
+    db.run(sql, [id], (err) => {
       if (err) {
         reject(err);
        
@@ -263,7 +263,7 @@ exports.deleteAllexamPlan = (id) => {
 }
 
 
-
+//code to add default exams
 exports.addExam = (exam) => {
   return new Promise((resolve, reject) => {
     const sql = "INSERT INTO exam(code,name,credits,max,preparation,description) VALUES(?,?,?,?,?,?)";

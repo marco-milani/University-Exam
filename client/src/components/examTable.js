@@ -30,7 +30,7 @@ function ExamTable(props) {
     )
 }
 
-function ExamRow(props) {
+function ExamRow(props) {//row of exam table
     const [hidden, setHidden] = useState(true)
     let str = props.exam.incompatible.map(i => i.code2).join(", ");
     if (str === "") {
@@ -57,7 +57,7 @@ function ExamRow(props) {
 
 
 
-function StudyPlanForm(props) {
+function StudyPlanForm(props) {// form that appear only if logged in to create new plan/modify plan button
     const navigate = useNavigate();
     const [hidden, setHidden] = useState(false)
     const [type, setType] = useState("FullTime");
@@ -68,11 +68,17 @@ function StudyPlanForm(props) {
             type: type,
             userId: props.user.id
         }
-        await API.newPlan(sp);
-        await props.getPlan();
+        try{
+            await API.newPlan(sp);
+            await props.getPlan();
+        }catch(err){
+            props.setMessage({ msg: "Server is not working...", type: 'danger' });
+            return;
+        }
+       
         navigate("/studyPlan");
     }
-    let Bonucci;
+    let Bonucci;// button that is modify if plan is already created, newplan otherwise
     if (props.plan !== null) {
         Bonucci = <Button variant="success" hidden={hidden} onClick={() => navigate("/studyPlan")}> Modify Study Plan </Button>
     }
@@ -82,7 +88,7 @@ function StudyPlanForm(props) {
             <Button variant="success" hidden={hidden} onClick={() => setHidden(!hidden)}> New Study Plan </Button>
             <Form className='col-4 offset-4' style={{ textAlign: "center" }} onSubmit={handleSubmit} hidden={!hidden}>
                 <Form.Label>Select type of study plan</Form.Label>
-                <Form.Select aria-label="studyplan choose Chiellini top player" onChange={event => setType(event.target.value)}>
+                <Form.Select  onChange={event => setType(event.target.value)}>
                     <option defaultValue={true} value="fullTime">Full time</option>
                     <option value="partTime">Part time</option>
                 </Form.Select>
