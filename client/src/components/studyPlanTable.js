@@ -250,7 +250,7 @@ function ButtonExam(props) {
     }
     if(props.exam.max===props.exam.n&&props.exam.special!=="Buffon"){
         flag=1;
-        stri = "Can't add this course because this course has reached the max amount of students enrolled"
+        stri = "Can't add this course because this course has reached the max number of students enrolled"
     }
     let buttonblocked = <OverlayTrigger overlay={<Tooltip id={props.exam.code}>{stri}</Tooltip>}>
         <span className="d-inline-block">
