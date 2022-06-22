@@ -26,7 +26,8 @@ function App() {
          const user = await API.getUserInfo();
          setUser(user);
       }catch(err){
-
+        setLoggedIn(false);
+        return;
       }
       setLoggedIn(true);
       
@@ -56,24 +57,17 @@ function App() {
     setLoading(true);
     try{
       await getExams();
-    }
-    catch(err){
-
-    }
     
     if (loggedIn) {
-      try{
       const _plan = await API.getPlan();
             setPlan(_plan);
             await getExPlan(_plan);
-      }
-      catch(err){
-        
-      }
-      
     }
     else {
       setPlan(null);
+    }
+  }catch(err){
+      
     }
     setLoading(false);
   }

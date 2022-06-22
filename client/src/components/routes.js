@@ -70,14 +70,6 @@ function StudyPlanRoute(props) {
       <Container fluid className='mx-auto my-3'>
         <Row>
           <Col style={{ textAlign: "center" }}>
-            <h1>Exam List</h1>
-          </Col>
-          <Col style={{ textAlign: "center" }}>
-            <h1>Exams Chosen</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <ExamList exams={props.exams} plan={props.plan} getPlan={props.getPlan} examPlan={props.examPlan} setExamPlan={props.setExamPlan}></ExamList>
           </Col>
           <Col style={{ textAlign: "center" }}>

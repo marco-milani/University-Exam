@@ -3,7 +3,6 @@ import { useState } from "react";
 import { ArrowBarLeft, ArrowBarRight, Info, LockFill } from 'react-bootstrap-icons';
 import API from "../API"
 import { useNavigate } from "react-router-dom";
-//TO DO controlli lato server, problema max number of iscritti
 
 
 function MyPlan(props) {
@@ -26,7 +25,7 @@ function MyPlan(props) {
         maxCredits = 80;
     }
 
-    let saveButton = <Button style={{ outline: "none", boxShadow: "none" }} variant="success" active onClick={
+    let saveButton = <Button className="col-4" style={{ outline: "none", boxShadow: "none" }} variant="success" active onClick={
         () => {
             let flag = false;
             props.examPlan.forEach((ex) => {
@@ -69,6 +68,7 @@ function MyPlan(props) {
 
     return (
         <div className="align px-5" >
+             <h1>Exams Chosen</h1>
             <Table striped >
                 <thead className='h5'>
                     <tr>
@@ -87,12 +87,12 @@ function MyPlan(props) {
             </Table>
             <br /> <br /> <br />
             {saveButton}
-            {' '}
-            <Button variant="danger" active onClick={() => { API.deletePlan(props.plan.id).then(()=>{props.getPlan().then(()=>navigate("/"))})}}>
+            <br />
+            <Button className="col-4 mt-2" variant="danger" active onClick={() => { API.deletePlan(props.plan.id).then(()=>{props.getPlan().then(()=>navigate("/"))})}}>
                 Delete Plan
             </Button>
             {' '}
-            <Button variant="danger" active onClick={() => {props.getPlan();}}>
+            <Button className="col-4 mt-2" variant="danger" active onClick={() => {props.getPlan();}}>
                 Cancel modification
             </Button>
             <br /><br />
@@ -138,9 +138,8 @@ function ExamRow(props) { //row of my plan
 function ButtonStudyPlan(props) {
     let buttonCheck = <Button style={{ borderRadius: "32px" }} variant={"success"} className="mt-2"
         onClick={() => {if(props.exam.max===props.exam.n){
-            props.exams.map((e)=>{if(e.code===props.exam.code){
+            props.exams.forEach((e)=>{if(e.code===props.exam.code){
                 e.special="Buffon";
-                return e;
             }})
         }
             props.setExamPlan((oldExams) => oldExams.filter(e => e.code !== props.exam.code))}}> <ArrowBarLeft /> </Button>;
@@ -170,6 +169,7 @@ function ExamList(props) {
 
     return (
         <div className="align px-5" >
+             <h1>Exam List</h1>
             <Table striped >
                 <thead className='h5'>
                     <tr>
