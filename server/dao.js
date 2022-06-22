@@ -190,13 +190,11 @@ exports.addExamPlan = async (exams, id) => {
     try {
       exams.forEach(element => {
         if(element.preparation !=="none" && !exCopy.includes(element.preparation)){
-          console.log("here2")
           throw 422;
          
         }
         for (const i of element.incompatible) {
           if (exCopy.includes(i.code2)) {
-            console.log("here")
             throw 422;
           }
         }
@@ -206,7 +204,6 @@ exports.addExamPlan = async (exams, id) => {
     catch (err) {
       throw err;
     }
-    console.log(exams);
     for (const i of exams) {
       try{
         await this.insertExam(id, i.code)
@@ -271,7 +268,6 @@ exports.deletePlan = (id) => {
     db.run(sql, [id], async (err) => {// elimino plan 
       if (err) {
         reject(err);
-        console.error(err);
       }
       await this.deleteAllexamPlan(id);
       resolve(this.lastID);
@@ -286,7 +282,7 @@ exports.deleteAllexamPlan = (id) => {
     db.run(sql, [id], (err) => {// elimino plan 
       if (err) {
         reject(err);
-        console.error(err);
+       
       }
       else
         resolve(this.lastID);

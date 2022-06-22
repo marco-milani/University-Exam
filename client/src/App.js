@@ -24,12 +24,12 @@ function App() {
     const checkAuth = async () => {
       try{
          const user = await API.getUserInfo();
+         setUser(user);
       }catch(err){
 
       }
-     
       setLoggedIn(true);
-      setUser(user);
+      
     };
     setLoading(true);
     checkAuth()
