@@ -9,13 +9,12 @@ const userDao = require('./user-dao');
 const PORT = 3001;
 const cors = require('cors');
 
-// Passport-related imports
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const session = require('express-session');
 
 
-// init express
 const app = new express();
 const port = 3001;
 
@@ -28,7 +27,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-// Passport: set up local strategy
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
   const user = await userDao.getUser(username, password)
   if (!user)
@@ -42,9 +40,9 @@ passport.serializeUser((user, cb) => {
 });
 
 
-passport.deserializeUser((user, cb) => { // this user is id + email + name
+passport.deserializeUser((user, cb) => { 
   return cb(null, user);
-  // if needed, we can do extra check here (e.g., double check that the user is still in the database, etc.)
+ 
 });
 
 const isLoggedIn = (req, res, next) => { // middleware da usare per check login
@@ -69,9 +67,9 @@ app.use(express.json())
   console.log(err);
 }*/
 
-// GET APIs //
+// GET APIs 
 
-// Get list of all exams //
+// Get list of all exams 
 app.get('/api/exams', async (req, res) => {
   try {
     let list = await dao.listAllExam();
@@ -83,22 +81,7 @@ app.get('/api/exams', async (req, res) => {
 });
 
 
-// Get exam element given its code //
-/*app.get('/api/exams/:code',
-  async (req, res) => {
-    const code = req.params.code;
-    try {
-      let exam = await dao.getExamByCode(code);
-      if (exam)
-        return res.status(200).json(exam).end();
-      else
-        return res.status(404).json({ error: `Exam Code ${code} not found.` }).end();
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: `Internal Server Error` }).end();
-    }
-  });*/
-
+// Get studyPlan exams
 app.get("/api/studyPlan/:id/exams", async (req, res) => {
   let exList;
   try {
@@ -112,32 +95,7 @@ app.get("/api/studyPlan/:id/exams", async (req, res) => {
 
 })
 
-/*app.get('/api/students/exams',
-  async (req, res) => {
-    let exams;
-    try {
-      exams = await dao.listAllExam();
-    }
-    catch (err) {
-      return res.status(500).json({ error: `Internal Server Error` }).end();
-    }
-    let enrolled = [];
-    for (const e of exams) {
-      let number
-      try {
-        number = await dao.NstudentsEnrolled(e.code);
-      }
-      catch (err) {
-        return res.status(500).json({ error: `Internal Server Error` }).end();
-      }
-      const val = {
-        code: e.code,
-        n: number
-      };
-      enrolled.push(val);
-    }
-    return res.status(200).json(enrolled).end();
-  });*/
+// Get plan
 
 app.get('/api/plan', isLoggedIn,
   async (req, res) => {
@@ -161,9 +119,9 @@ app.get('/api/plan', isLoggedIn,
   })
 
 
-// POST APIs //
+// POST APIs 
 
-// Create a new study plan //
+// Create a new study plan 
 app.post('/api/plan', isLoggedIn,
   [check("type").exists(),
   check("userId").exists().isNumeric()],
@@ -183,7 +141,7 @@ app.post('/api/plan', isLoggedIn,
 
 
 // PUT APIs //
-
+//modify study plan
 app.put('/api/plan/:id/exams', isLoggedIn,
   [check("examsCode").exists()],
   async (req, res) => {
@@ -203,22 +161,6 @@ app.put('/api/plan/:id/exams', isLoggedIn,
     }
   });
 
-/*app.put('/api/plan/exams/remove', isLoggedIn,
-  [check("exams").exists(),
-  check("userId").exists()],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ error: ' Validation of request body failed ' }).end()
-    }
-    try {
-      await dao.deleteExamPlan(req.body.exams, req.body.userId);
-      return res.status(200).json("OK").end();
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: `Internal Server Error` }).end();
-    }
-  });*/
 
 // DELETE APIs //
 
