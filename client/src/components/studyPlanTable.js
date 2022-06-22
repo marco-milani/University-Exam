@@ -27,16 +27,7 @@ function MyPlan(props) {
 
     let saveButton = <Button className="col-4" style={{ outline: "none", boxShadow: "none" }} variant="success" active onClick={
         () => {
-            let flag = false;
-            props.examPlan.forEach((ex) => {
-                if (ex.max != null) {
-                    if (ex.n > ex.max) {
-                        flag = true;
-                    }
-                }
-
-            })
-            if (!flag) {
+            
                 if (credits < minCredits) {
                     props.setMessage({ msg: "Not enough credits!", type: 'danger' });
 
@@ -55,11 +46,6 @@ function MyPlan(props) {
                     }
 
                 }
-            } else {
-                props.setMessage({ msg: "This course alredy reached the max number of students enrolled", type: 'danger' });
-
-            }
-
         }
     }>
         Save Plan

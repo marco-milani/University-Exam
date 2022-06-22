@@ -4,8 +4,7 @@
 const sqlite = require('sqlite3');
 const { Exam } = require('./exam');
 const { db } = require("./db");
-//const dayjs = require("dayjs");
-//const { resolve } = require('path');
+
 
 
 exports.listAllExam = async () => {

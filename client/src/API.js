@@ -10,14 +10,6 @@ const getAllExam = async () => {
     } else throw examJSON;
   };
 
-  /*const getCountEnrolled = async () => {
-    const response = await fetch(`${BASE_URL}/api/students/exams`);
-    const enrolledJSON = await response.json();
-    if (response.ok) {
-      return enrolledJSON;
-    } else throw enrolledJSON;
-  };*/
-
   const getPlan = async () => {
     const response = await fetch(`${BASE_URL}/api/plan`, {credentials: 'include'});
     const planJSON = await response.json();
@@ -98,7 +90,7 @@ const getAllExam = async () => {
     if (response.ok) {
       return user;
     } else {
-      throw user;  // an object with the error coming from the server
+      throw user;  
     }
   };
   

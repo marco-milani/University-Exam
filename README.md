@@ -137,7 +137,7 @@
 
 ## Screenshot
 
-![Screenshot](./img/screenshot.jpg)
+![Screenshot](./img/Screenshot_app.png)
 
 ## Users Credentials
 

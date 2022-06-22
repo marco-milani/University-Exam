@@ -33,7 +33,6 @@ function ExamTable(props) {
 function ExamRow(props) {
     const [hidden, setHidden] = useState(true)
     let str = props.exam.incompatible.map(i => i.code2).join(", ");
-    //props.exam.incompatible.map(i=>{str+=i.code2+"  "})
     if (str === "") {
         str = "none";
     }
@@ -48,7 +47,7 @@ function ExamRow(props) {
                 <td style={{ textAlign: "center" }}>{props.exam.credits}</td>
                 <td style={{ textAlign: "center" }}>{props.n}</td>
                 <td style={{ textAlign: "center" }}>{props.exam.max}</td>
-                <td style={{ textAlign: "center" }}><Button style={{ borderRadius: "32px" }} variant={/*"success"*/"light"} onClick={() => setHidden(!hidden)}><Info /></Button> </td>
+                <td style={{ textAlign: "center" }}><Button style={{ borderRadius: "32px" }} variant={"light"} onClick={() => setHidden(!hidden)}><Info /></Button> </td>
             </tr>
             <tr hidden={hidden}><td colSpan={3}>Preparatory course: {props.exam.preparation}</td><td colSpan={3}>Incompatible courses: {str}</td></tr>
         </>
