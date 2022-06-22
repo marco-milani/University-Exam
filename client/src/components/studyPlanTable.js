@@ -91,6 +91,10 @@ function MyPlan(props) {
             <Button variant="danger" active onClick={() => { API.deletePlan(props.plan.id).then(()=>{props.getPlan().then(()=>navigate("/"))})}}>
                 Delete Plan
             </Button>
+            {' '}
+            <Button variant="danger" active onClick={() => {props.getPlan();}}>
+                Cancel modification
+            </Button>
             <br /><br />
             <label> <h2>Min Credits : {minCredits}  Max Credits : {maxCredits} </h2> </label>
 
